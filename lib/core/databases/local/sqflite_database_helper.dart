@@ -1,3 +1,4 @@
+import 'package:note_todo_app_mind_box/core/databases/local/database_keys.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -16,15 +17,29 @@ class SqfliteDatabaseHelper {
 
   Future<Database> _initDB() async {
     final String dbPath = await getDatabasesPath();
-    final String path = join(dbPath, 'database-name.db');
+    final String path = join(dbPath, 'mind-box.db');
 
     return await openDatabase(path, version: 1, onCreate: _onCreate);
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    '''
-      create your tables here
-    ''';
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS ${DatabaseKeys.notesTable} (
+        ${DatabaseKeys.notesId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${DatabaseKeys.notesTitle} TEXT,
+        ${DatabaseKeys.notesContent} TEXT,
+        ${DatabaseKeys.notesCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    ''');
+
+    await db.execute('''
+      CREATE TABLE IF NOT EXISTS ${DatabaseKeys.tasksTable} (
+        ${DatabaseKeys.tasksId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${DatabaseKeys.tasksTitle} TEXT,
+        ${DatabaseKeys.tasksCompleted} INTEGER DEFAULT 0,
+        ${DatabaseKeys.tasksCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      )
+    ''');
   }
 
   Future<void> closeDatabase() async {

@@ -10,6 +10,7 @@ environment:
 
 dependencies:
   cupertino_icons: null
+  dartz: ^0.10.1
   flutter:
     sdk: flutter
   path: ^1.9.1

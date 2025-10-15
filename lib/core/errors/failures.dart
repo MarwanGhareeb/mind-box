@@ -1,9 +1,13 @@
-abstract class Failures {
+interface class Failure {
   final String message;
 
-  Failures(this.message);
+  Failure(this.message);
 }
 
-class CacheFailure extends Failures {
+class CacheFailure extends Failure {
   CacheFailure(super.message);
+}
+
+class DatabaseFailure extends Failure {
+  DatabaseFailure(super.message);
 }

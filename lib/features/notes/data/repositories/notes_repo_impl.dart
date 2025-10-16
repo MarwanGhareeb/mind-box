@@ -1,4 +1,5 @@
 import 'package:dartz/dartz.dart';
+import 'package:note_todo_app_mind_box/core/databases/local/database_keys.dart';
 import 'package:note_todo_app_mind_box/core/databases/local/sqflite_consumer.dart';
 import 'package:note_todo_app_mind_box/core/errors/exceptions.dart';
 import 'package:note_todo_app_mind_box/core/errors/failures.dart';
@@ -12,12 +13,13 @@ class NotesRepoImpl implements NotesRepo {
   NotesRepoImpl(this._sqfliteConsumer);
 
   @override
-  Future<Either<Failure, int>> addNote(
-    String table, {
+  Future<Either<Failure, int>> addNote({
     required Map<String, dynamic> data,
   }) async {
     try {
-      return Right(await _sqfliteConsumer.addData(table, data: data));
+      return Right(
+        await _sqfliteConsumer.addData(DatabaseKeys.notesTable, data: data),
+      );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
@@ -26,18 +28,10 @@ class NotesRepoImpl implements NotesRepo {
   }
 
   @override
-  Future<Either<Failure, int>> deleteNote(
-    String table, {
-    String? where,
-    List<Object?>? whereArgs,
-  }) async {
+  Future<Either<Failure, int>> deleteNote({required int id}) async {
     try {
       return Right(
-        await _sqfliteConsumer.deleteData(
-          table,
-          where: where,
-          whereArgs: whereArgs,
-        ),
+        await _sqfliteConsumer.deleteData(DatabaseKeys.notesTable, id: id),
       );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -47,10 +41,10 @@ class NotesRepoImpl implements NotesRepo {
   }
 
   @override
-  Future<Either<Failure, List<NoteEntity>>> getNotes(String table) async {
+  Future<Either<Failure, List<NoteEntity>>> getNotes() async {
     try {
       final List<Map<String, dynamic>> data = await _sqfliteConsumer.getData(
-        table,
+        DatabaseKeys.notesTable,
       );
       return Right(
         (data.map((e) => NoteModel.fromJson(e).toEntity()).toList(),)
@@ -64,19 +58,16 @@ class NotesRepoImpl implements NotesRepo {
   }
 
   @override
-  Future<Either<Failure, int>> updateNote(
-    String table, {
+  Future<Either<Failure, int>> updateNote({
     required Map<String, dynamic> data,
-    String? where,
-    List<Object?>? whereArgs,
+    required int id,
   }) async {
     try {
       return Right(
         await _sqfliteConsumer.updateData(
-          table,
+          DatabaseKeys.notesTable,
           data: data,
-          where: where,
-          whereArgs: whereArgs,
+          id: id,
         ),
       );
     } on LocalDatabaseException catch (e) {

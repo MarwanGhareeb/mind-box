@@ -3,13 +3,8 @@ abstract class DatabaseConsumer {
   Future<int> updateData(
     String table, {
     required Map<String, dynamic> data,
-    String? where,
-    List<Object?>? whereArgs,
+    required int id,
   });
-  Future<int> deleteData(
-    String table, {
-    String? where,
-    List<Object?>? whereArgs,
-  });
+  Future<int> deleteData(String table, {required int id});
   Future<List<Map<String, dynamic>>> getData(String table);
 }

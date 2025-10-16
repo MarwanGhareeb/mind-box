@@ -1,4 +1,5 @@
 import 'package:note_todo_app_mind_box/core/databases/local/database_consumer.dart';
+import 'package:note_todo_app_mind_box/core/databases/local/database_keys.dart';
 import 'package:note_todo_app_mind_box/core/databases/local/sqflite_database_helper.dart';
 import 'package:note_todo_app_mind_box/core/errors/exceptions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -29,13 +30,13 @@ class SqfliteConsumer implements DatabaseConsumer {
   }
 
   @override
-  Future<int> deleteData(
-    String table, {
-    String? where,
-    List<Object?>? whereArgs,
-  }) async {
+  Future<int> deleteData(String table, {required int id}) async {
     try {
-      return await _database!.delete(table, where: where, whereArgs: whereArgs);
+      return await _database!.delete(
+        table,
+        where: "${DatabaseKeys.notesId} = ?",
+        whereArgs: [id],
+      );
     } catch (e) {
       throw LocalDatabaseException("Failed to delete data from database");
     }
@@ -54,15 +55,14 @@ class SqfliteConsumer implements DatabaseConsumer {
   Future<int> updateData(
     String table, {
     required Map<String, dynamic> data,
-    String? where,
-    List<Object?>? whereArgs,
+    required int id,
   }) async {
     try {
       return await _database!.update(
         table,
         data,
-        where: where,
-        whereArgs: whereArgs,
+        where: "${DatabaseKeys.notesId} = ?",
+        whereArgs: [id],
       );
     } catch (e) {
       throw LocalDatabaseException("Failed to update data into database");

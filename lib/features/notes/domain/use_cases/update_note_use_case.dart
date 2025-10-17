@@ -9,6 +9,6 @@ class UpdateNoteUseCase {
   UpdateNoteUseCase(this._notesRepo);
 
   Future<Either<Failure, int>> call(NoteParams params) async {
-    return await _notesRepo.updateNote(data: params.toMap(), id: params.id);
+    return await _notesRepo.updateNote(data: params.toMap(), id: params.id!);
   }
 }

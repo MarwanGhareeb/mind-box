@@ -1,5 +1,5 @@
 import 'package:note_todo_app_mind_box/core/databases/local/database_consumer.dart';
-import 'package:note_todo_app_mind_box/core/databases/local/database_keys.dart';
+import 'package:note_todo_app_mind_box/core/constants/database_keys.dart';
 import 'package:note_todo_app_mind_box/core/databases/local/sqflite_database_helper.dart';
 import 'package:note_todo_app_mind_box/core/errors/exceptions.dart';
 import 'package:sqflite/sqflite.dart';
@@ -34,7 +34,7 @@ class SqfliteConsumer implements DatabaseConsumer {
     try {
       return await _database!.delete(
         table,
-        where: "${DatabaseKeys.notesId} = ?",
+        where: "${NotesDBKeys.notesId} = ?",
         whereArgs: [id],
       );
     } catch (e) {
@@ -61,7 +61,7 @@ class SqfliteConsumer implements DatabaseConsumer {
       return await _database!.update(
         table,
         data,
-        where: "${DatabaseKeys.notesId} = ?",
+        where: "${NotesDBKeys.notesId} = ?",
         whereArgs: [id],
       );
     } catch (e) {

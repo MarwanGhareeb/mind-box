@@ -1,4 +1,4 @@
-import 'package:note_todo_app_mind_box/core/databases/local/database_keys.dart';
+import 'package:note_todo_app_mind_box/core/constants/database_keys.dart';
 import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 
@@ -24,20 +24,20 @@ class SqfliteDatabaseHelper {
 
   Future<void> _onCreate(Database db, int version) async {
     await db.execute('''
-      CREATE TABLE IF NOT EXISTS ${DatabaseKeys.notesTable} (
-        ${DatabaseKeys.notesId} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${DatabaseKeys.notesTitle} TEXT,
-        ${DatabaseKeys.notesContent} TEXT,
-        ${DatabaseKeys.notesCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      CREATE TABLE IF NOT EXISTS ${NotesDBKeys.notesTable} (
+        ${NotesDBKeys.notesId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${NotesDBKeys.notesTitle} TEXT,
+        ${NotesDBKeys.notesContent} TEXT,
+        ${NotesDBKeys.notesCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     ''');
 
     await db.execute('''
-      CREATE TABLE IF NOT EXISTS ${DatabaseKeys.tasksTable} (
-        ${DatabaseKeys.tasksId} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${DatabaseKeys.tasksTitle} TEXT,
-        ${DatabaseKeys.tasksCompleted} INTEGER DEFAULT 0,
-        ${DatabaseKeys.tasksCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+      CREATE TABLE IF NOT EXISTS ${TasksDBKeys.tasksTable} (
+        ${TasksDBKeys.tasksId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${TasksDBKeys.tasksTitle} TEXT,
+        ${TasksDBKeys.tasksCompleted} INTEGER DEFAULT 0,
+        ${TasksDBKeys.tasksCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       )
     ''');
   }

@@ -1,5 +1,5 @@
 import 'package:dartz/dartz.dart';
-import 'package:note_todo_app_mind_box/core/databases/local/database_keys.dart';
+import 'package:note_todo_app_mind_box/core/constants/database_keys.dart';
 import 'package:note_todo_app_mind_box/core/databases/local/sqflite_consumer.dart';
 import 'package:note_todo_app_mind_box/core/errors/exceptions.dart';
 import 'package:note_todo_app_mind_box/core/errors/failures.dart';
@@ -18,7 +18,7 @@ class NotesRepoImpl implements NotesRepo {
   }) async {
     try {
       return Right(
-        await _sqfliteConsumer.addData(DatabaseKeys.notesTable, data: data),
+        await _sqfliteConsumer.addData(NotesDBKeys.notesTable, data: data),
       );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -31,7 +31,7 @@ class NotesRepoImpl implements NotesRepo {
   Future<Either<Failure, int>> deleteNote({required int id}) async {
     try {
       return Right(
-        await _sqfliteConsumer.deleteData(DatabaseKeys.notesTable, id: id),
+        await _sqfliteConsumer.deleteData(NotesDBKeys.notesTable, id: id),
       );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -44,7 +44,7 @@ class NotesRepoImpl implements NotesRepo {
   Future<Either<Failure, List<NoteEntity>>> getNotes() async {
     try {
       final List<Map<String, dynamic>> data = await _sqfliteConsumer.getData(
-        DatabaseKeys.notesTable,
+        NotesDBKeys.notesTable,
       );
       return Right(
         (data.map((e) => NoteModel.fromJson(e).toEntity()).toList(),)
@@ -65,7 +65,7 @@ class NotesRepoImpl implements NotesRepo {
     try {
       return Right(
         await _sqfliteConsumer.updateData(
-          DatabaseKeys.notesTable,
+          NotesDBKeys.notesTable,
           data: data,
           id: id,
         ),

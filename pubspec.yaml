@@ -6,7 +6,7 @@ publish_to: 'none'
 version: 1.0.0+1
 
 environment:
-  sdk: ^3.10.0-213.0.dev
+  sdk: ">=3.0.0 <4.0.0"
 
 dependencies:
   cupertino_icons: null
@@ -14,7 +14,9 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_bloc: ^9.1.1
+  flutter_riverpod: ^3.0.3
   path: ^1.9.1
+  riverpod: ^3.0.3
   shared_preferences: null
   sqflite: ^2.4.2
 

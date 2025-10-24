@@ -1,6 +1,5 @@
+import 'package:animations/animations.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:note_todo_app_mind_box/app/providers/theme_provider.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/screens/notes_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -34,63 +33,90 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.only(top: 20),
-            alignment: Alignment.bottomRight,
-            child: Consumer(
-              builder: (context, ref, child) {
-                final themeMode = ref.watch(themeProvider);
-                final themeNotifier = ref.read(themeProvider.notifier);
+        body: Center(
+          child: Stack(
+            children: [
+              PageTransitionSwitcher(
+                duration: const Duration(milliseconds: 600),
+                transitionBuilder: (child, animation, secondaryAnimation) {
+                  return SharedAxisTransition(
+                    animation: animation,
+                    secondaryAnimation: secondaryAnimation,
+                    transitionType: SharedAxisTransitionType.horizontal,
+                    child: child,
+                  );
+                },
+                child: _pages[_indexSelector],
+              ),
+              Align(
+                alignment:
+                    Alignment.bottomCenter, // Aligns to the bottom center
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                      bottom: 16.0), // Adjust padding as needed
+                  child: FloatingActionButton(
+                    onPressed: () {
+                      // Action for the middle FAB
+                      debugPrint('Middle FAB pressed');
+                    },
+                    heroTag: 'middleFab', // Unique heroTag
+                    child: const Icon(Icons.add),
+                  ),
+                ),
+              ),
 
-                return IconButton(
+              // FAB in the top right
+              Positioned(
+                top: 16.0, // Adjust top position as needed
+                right: 16.0, // Adjust right position as needed
+                child: FloatingActionButton(
                   onPressed: () {
-                    themeNotifier.toggleTheme(themeMode == ThemeMode.light);
+                    // Action for the top right FAB
+                    debugPrint('Top Right FAB pressed');
                   },
-                  icon: child!,
-                );
-              },
-              child: Icon(Icons.mode_night_outlined),
-            ),
-          ),
-          Expanded(
-            child: PageView(
-              controller: _pageController,
-              onPageChanged: (value) => setState(() {
-                _indexSelector = value;
-              }),
-              children: _pages,
-            ),
-          ),
-        ],
-      ),
-      bottomNavigationBar: BottomNavigationBar(
-        items: <BottomNavigationBarItem>[
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.notes,
+                  heroTag: 'topRightFab', // Unique heroTag
+                  mini: true, // Optional: make it a mini FAB
+                  child: const Icon(Icons.settings),
+                ),
               ),
-              label: "notes"),
-          BottomNavigationBarItem(
-              icon: Icon(
-                Icons.task,
-              ),
-              label: "tasks"),
-        ],
-        currentIndex: _indexSelector,
-        onTap: (value) {
-          setState(() {
-            _indexSelector = value;
-          });
+            ],
+          ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.notes,
+                ),
+                label: "notes"),
+            BottomNavigationBarItem(
+                icon: Icon(
+                  Icons.task,
+                ),
+                label: "tasks"),
+          ],
+          currentIndex: _indexSelector,
+          onTap: (value) {
+            setState(() {
+              _indexSelector = value;
+            });
+          },
+        )
+        // floatingActionButtonLocation: FloatingActionButtonLocation.endTop,
+        // floatingActionButton: Consumer(
+        //   builder: (context, ref, child) {
+        //     final themeMode = ref.watch(themeProvider);
+        //     final themeNotifier = ref.read(themeProvider.notifier);
 
-          _pageController.animateToPage(
-            value,
-            duration: const Duration(milliseconds: 800),
-            curve: Curves.ease,
-          );
-        },
-      ),
-    );
+        //     return IconButton(
+        //       onPressed: () {
+        //         themeNotifier.toggleTheme(themeMode == ThemeMode.light);
+        //       },
+        //       icon: child!,
+        //     );
+        //   },
+        //   child: Icon(Icons.mode_night_outlined),
+        // ),
+        );
   }
 }

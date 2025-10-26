@@ -12,9 +12,9 @@ class SqfliteConsumer implements DatabaseConsumer {
   static Future<SqfliteConsumer> create(
     SqfliteDatabaseHelper databaseHelper,
   ) async {
-    final SqfliteConsumer notesRepoImpl = SqfliteConsumer._();
-    notesRepoImpl._database = await databaseHelper.database;
-    return notesRepoImpl;
+    final SqfliteConsumer sqfliteConsumer = SqfliteConsumer._();
+    sqfliteConsumer._database = await databaseHelper.database;
+    return sqfliteConsumer;
   }
 
   @override
@@ -43,9 +43,18 @@ class SqfliteConsumer implements DatabaseConsumer {
   }
 
   @override
-  Future<List<Map<String, dynamic>>> getData(String table) async {
+  Future<List<Map<String, dynamic>>> getData(String table,
+      {String? title}) async {
     try {
-      return await _database!.query(table);
+      if (title != null) {
+        return await _database!.query(
+          table,
+          where: "${NotesDBKeys.notesTitle} LIKE ?",
+          whereArgs: ['%$title%'],
+        );
+      } else {
+        return await _database!.query(table);
+      }
     } catch (e) {
       throw LocalDatabaseException("Failed to get data from database");
     }

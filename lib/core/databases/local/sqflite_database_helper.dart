@@ -28,7 +28,7 @@ class SqfliteDatabaseHelper {
         ${NotesDBKeys.notesId} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${NotesDBKeys.notesTitle} TEXT,
         ${NotesDBKeys.notesContent} TEXT,
-        ${NotesDBKeys.notesCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ${NotesDBKeys.notesColor} INTEGER
       )
     ''');
 

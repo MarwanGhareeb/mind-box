@@ -1,6 +1,10 @@
 import 'dart:ui';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_todo_app_mind_box/core/params/note_params.dart';
 import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
+import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/action_buttons.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/color_selector.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/custom_app_bar.dart';
@@ -9,12 +13,10 @@ import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/custo
 class EditNoteScreen extends StatefulWidget {
   const EditNoteScreen({
     super.key,
-    required this.titleController,
-    required this.contentController,
+    required this.note,
   });
 
-  final TextEditingController titleController;
-  final TextEditingController contentController;
+  final NoteParams note;
 
   @override
   State<EditNoteScreen> createState() => _EditNoteScreenState();
@@ -24,10 +26,20 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   double offsetY = 0;
 
-  Color backgroundNoteColor = Colors.grey;
+  late final TextEditingController titleController;
+  late final TextEditingController contentController;
+
+  @override
+  void initState() {
+    super.initState();
+    titleController = TextEditingController(text: widget.note.title);
+    contentController = TextEditingController(text: widget.note.content);
+  }
 
   @override
   Widget build(BuildContext context) {
+    Color backgroundNoteColor = Color(widget.note.color);
+
     return GestureDetector(
       onVerticalDragUpdate: (details) {
         setState(() {
@@ -68,7 +80,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                     SizedBox(height: 10),
                     CustomTextField(
                       hintText: 'Write your title here...',
-                      controller: widget.titleController,
+                      controller: titleController,
                       keyboardType: TextInputType.text,
                     ),
                     SizedBox(height: 30),
@@ -77,7 +89,7 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                     SizedBox(height: 10),
                     CustomTextField(
                       hintText: 'Write your content here...',
-                      controller: widget.contentController,
+                      controller: contentController,
                       keyboardType: TextInputType.multiline,
                     ),
                     SizedBox(height: 40),
@@ -90,7 +102,29 @@ class _EditNoteScreenState extends State<EditNoteScreen> {
                           backgroundNoteColor = selectedColor,
                     ),
                     SizedBox(height: 50),
-                    ActionButtons(onSave: () {}),
+                    ActionButtons(
+                      onSave: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (backgroundNoteColor != Colors.transparent) {
+                            AwesomeDialog(
+                              context: context,
+                            );
+                          }
+                          context.read<NotesBloc>().add(
+                                UpdateNoteEvent(
+                                  params: NoteParams(
+                                    id: widget.note.id,
+                                    title: titleController.text,
+                                    content: contentController.text,
+                                    color: backgroundNoteColor.toARGB32(),
+                                  ),
+                                ),
+                              );
+
+                          Navigator.pop<bool>(context, true);
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

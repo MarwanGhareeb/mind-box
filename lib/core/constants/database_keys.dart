@@ -3,7 +3,7 @@ class NotesDBKeys {
   static const String notesId = 'id';
   static const String notesTitle = 'title';
   static const String notesContent = 'content';
-  static const String notesCreatedAt = 'createdAt';
+  static const String notesColor = 'color';
 }
 
 class TasksDBKeys {

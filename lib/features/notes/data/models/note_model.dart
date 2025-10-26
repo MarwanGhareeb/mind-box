@@ -5,29 +5,29 @@ class NoteModel {
   final int id;
   final String title;
   final String content;
-  final DateTime createdAt;
+  final int color;
 
   NoteModel({
     required this.id,
     required this.title,
     required this.content,
-    required this.createdAt,
+    required this.color,
   });
 
   factory NoteModel.fromJson(Map<String, dynamic> json) => NoteModel(
-    id: json[NotesDBKeys.notesId],
-    title: json[NotesDBKeys.notesTitle],
-    content: json[NotesDBKeys.notesContent],
-    createdAt: DateTime.parse(json[NotesDBKeys.notesCreatedAt]),
-  );
+        id: json[NotesDBKeys.notesId],
+        title: json[NotesDBKeys.notesTitle],
+        content: json[NotesDBKeys.notesContent],
+        color: json[NotesDBKeys.notesColor],
+      );
 
   NoteEntity toEntity() =>
-      NoteEntity(id: id, title: title, content: content, createdAt: createdAt);
+      NoteEntity(id: id, title: title, content: content, color: color);
 
   Map<String, dynamic> toJson() => {
-    NotesDBKeys.notesId: id,
-    NotesDBKeys.notesTitle: title,
-    NotesDBKeys.notesContent: content,
-    NotesDBKeys.notesCreatedAt: createdAt.toIso8601String(),
-  };
+        NotesDBKeys.notesId: id,
+        NotesDBKeys.notesTitle: title,
+        NotesDBKeys.notesContent: content,
+        NotesDBKeys.notesColor: color,
+      };
 }

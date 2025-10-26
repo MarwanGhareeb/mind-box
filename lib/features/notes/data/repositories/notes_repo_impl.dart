@@ -1,6 +1,6 @@
 import 'package:dartz/dartz.dart';
 import 'package:note_todo_app_mind_box/core/constants/database_keys.dart';
-import 'package:note_todo_app_mind_box/core/databases/local/sqflite_consumer.dart';
+import 'package:note_todo_app_mind_box/core/databases/local/database_consumer.dart';
 import 'package:note_todo_app_mind_box/core/errors/exceptions.dart';
 import 'package:note_todo_app_mind_box/core/errors/failures.dart';
 import 'package:note_todo_app_mind_box/features/notes/data/models/note_model.dart';
@@ -8,9 +8,9 @@ import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entit
 import 'package:note_todo_app_mind_box/features/notes/domain/repositories/notes_repo.dart';
 
 class NotesRepoImpl implements NotesRepo {
-  final SqfliteConsumer _sqfliteConsumer;
+  final DatabaseConsumer _databaseConsumer;
 
-  NotesRepoImpl(this._sqfliteConsumer);
+  NotesRepoImpl(this._databaseConsumer);
 
   @override
   Future<Either<Failure, int>> addNote({
@@ -18,12 +18,14 @@ class NotesRepoImpl implements NotesRepo {
   }) async {
     try {
       return Right(
-        await _sqfliteConsumer.addData(NotesDBKeys.notesTable, data: data),
+        await _databaseConsumer.addData(NotesDBKeys.notesTable, data: data),
       );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
-      return Left(Failure("UnExcepected Error from add note"));
+      return Left(
+        Failure("UnExcepected Error from add note:\n  ${e.toString()}"),
+      );
     }
   }
 
@@ -31,29 +33,33 @@ class NotesRepoImpl implements NotesRepo {
   Future<Either<Failure, int>> deleteNote({required int id}) async {
     try {
       return Right(
-        await _sqfliteConsumer.deleteData(NotesDBKeys.notesTable, id: id),
+        await _databaseConsumer.deleteData(NotesDBKeys.notesTable, id: id),
       );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
-      return Left(Failure("UnExcepected Error from delete note"));
+      return Left(
+        Failure("UnExcepected Error from delete note:\n  ${e.toString()}"),
+      );
     }
   }
 
   @override
-  Future<Either<Failure, List<NoteEntity>>> getNotes() async {
+  Future<Either<Failure, List<NoteEntity>>> getNotes({String? title}) async {
     try {
-      final List<Map<String, dynamic>> data = await _sqfliteConsumer.getData(
+      final List<Map<String, dynamic>> data = await _databaseConsumer.getData(
         NotesDBKeys.notesTable,
+        title: title,
       );
       return Right(
-        (data.map((e) => NoteModel.fromJson(e).toEntity()).toList(),)
-            as List<NoteEntity>,
+        data.map((note) => NoteModel.fromJson(note).toEntity()).toList(),
       );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
-      return Left(Failure("UnExcepected Error from get note"));
+      return Left(
+        Failure("UnExcepected Error from get note:\n  ${e.toString()}"),
+      );
     }
   }
 
@@ -64,7 +70,7 @@ class NotesRepoImpl implements NotesRepo {
   }) async {
     try {
       return Right(
-        await _sqfliteConsumer.updateData(
+        await _databaseConsumer.updateData(
           NotesDBKeys.notesTable,
           data: data,
           id: id,
@@ -73,7 +79,9 @@ class NotesRepoImpl implements NotesRepo {
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {
-      return Left(Failure("UnExcepected Error from update note"));
+      return Left(
+        Failure("UnExcepected Error from update note:\n  ${e.toString()}"),
+      );
     }
   }
 }

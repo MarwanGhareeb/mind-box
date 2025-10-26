@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:note_todo_app_mind_box/core/constants/database_keys.dart';
 import 'package:note_todo_app_mind_box/core/params/note_params.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/use_cases/add_note_use_case.dart';
@@ -23,11 +22,12 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     this._updateNoteUseCase,
     this._deleteNoteUseCase,
   ) : super(NotesInitial()) {
+    // G E T
     on<GetNotesEvent>((event, emit) async {
       emit(NotesLoading());
 
       final results = await _getNotesUseCase.call(
-        event.title.isEmpty ? null : NoteParams(title: event.title),
+        title: event.title.isEmpty ? null : event.title,
       );
 
       results.fold(
@@ -36,65 +36,48 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       );
     });
 
+    // A D D
     on<AddNoteEvent>((event, emit) async {
       emit(NotesLoading());
 
       final results = await _addNoteUseCase.call(
         NoteParams(
-          title: event.data.title,
-          content: event.data.content,
-          createdAt: event.data.createdAt,
+          title: event.params.title,
+          content: event.params.content,
+          color: event.params.color,
         ),
       );
 
-      results.fold((failure) => emit(NotesError(message: failure.message)), (
-        _,
-      ) async {
-        final notes = await _getNotesUseCase.call();
-        notes.fold(
-          (failure) => emit(NotesError(message: failure.message)),
-          (notes) => emit(NotesLoaded(notes: notes)),
-        );
-      });
+      results.fold(
+        (failure) => emit(NotesError(message: failure.message)),
+        (success) => emit(SuccessProcess()),
+      );
     });
 
+    // U P D A T E
     on<UpdateNoteEvent>((event, emit) async {
       emit(NotesLoading());
 
-      final results = await _updateNoteUseCase.call(
-        NoteParams(
-          id: event.id,
-          title: event.data[NotesDBKeys.notesTitle],
-          content: event.data[NotesDBKeys.notesContent],
-          createdAt: DateTime.parse(event.data[NotesDBKeys.notesCreatedAt]),
-        ),
+      final results = await _updateNoteUseCase.call(event.params);
+
+      results.fold(
+        (failure) => emit(NotesError(message: failure.message)),
+        (success) => emit(SuccessProcess()),
       );
-
-      results.fold((failure) => emit(NotesError(message: failure.message)), (
-        _,
-      ) async {
-        final notes = await _getNotesUseCase.call();
-        notes.fold(
-          (failure) => emit(NotesError(message: failure.message)),
-          (notes) => emit(NotesLoaded(notes: notes)),
-        );
-      });
     });
 
-    on<DeleteNoteEvent>((event, emit) async {
-      emit(NotesLoading());
+    // D E L E T E
+    on<DeleteNoteEvent>(
+      (event, emit) async {
+        emit(NotesLoading());
 
-      final results = await _deleteNoteUseCase.call(NoteParams(id: event.id));
+        final results = await _deleteNoteUseCase.call(id: event.id);
 
-      results.fold((failure) => emit(NotesError(message: failure.message)), (
-        _,
-      ) async {
-        final notes = await _getNotesUseCase.call();
-        notes.fold(
+        results.fold(
           (failure) => emit(NotesError(message: failure.message)),
-          (notes) => emit(NotesLoaded(notes: notes)),
+          (success) => emit(SuccessProcess()),
         );
-      });
-    });
+      },
+    );
   }
 }

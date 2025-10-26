@@ -6,5 +6,5 @@ abstract class DatabaseConsumer {
     required int id,
   });
   Future<int> deleteData(String table, {required int id});
-  Future<List<Map<String, dynamic>>> getData(String table);
+  Future<List<Map<String, dynamic>>> getData(String table, {String? title});
 }

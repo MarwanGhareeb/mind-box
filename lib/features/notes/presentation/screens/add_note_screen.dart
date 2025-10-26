@@ -1,6 +1,11 @@
+import 'dart:developer';
 import 'dart:ui';
+import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_todo_app_mind_box/core/params/note_params.dart';
 import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
+import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/action_buttons.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/color_selector.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/custom_app_bar.dart';
@@ -17,7 +22,10 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   double offsetY = 0;
 
-  Color backgroundNoteColor = Colors.grey;
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController contentController = TextEditingController();
+
+  Color backgroundNoteColor = Colors.transparent;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +69,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     SizedBox(height: 10),
                     CustomTextField(
                       hintText: 'Write your title here...',
-                      controller: TextEditingController(),
+                      controller: titleController,
                       keyboardType: TextInputType.text,
                     ),
                     SizedBox(height: 30),
@@ -70,7 +78,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     SizedBox(height: 10),
                     CustomTextField(
                       hintText: 'Write your content here...',
-                      controller: TextEditingController(),
+                      controller: contentController,
                       keyboardType: TextInputType.multiline,
                     ),
                     SizedBox(height: 40),
@@ -79,11 +87,34 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                     SizedBox(height: 10),
                     ColorSelector(
                       colors: MindBoxTheme.noteColors,
-                      onColorSelected: (selectedColor) =>
-                          backgroundNoteColor = selectedColor,
+                      onColorSelected: (selectedColor) {
+                        log("$selectedColor");
+                        backgroundNoteColor = selectedColor;
+                      },
                     ),
                     SizedBox(height: 50),
-                    ActionButtons(onSave: () {}),
+                    ActionButtons(
+                      onSave: () {
+                        if (_formKey.currentState!.validate()) {
+                          if (backgroundNoteColor != Colors.transparent) {
+                            AwesomeDialog(
+                              context: context,
+                            );
+                          }
+                          context.read<NotesBloc>().add(
+                                AddNoteEvent(
+                                  params: NoteParams(
+                                    title: titleController.text,
+                                    content: contentController.text,
+                                    color: backgroundNoteColor.toARGB32(),
+                                  ),
+                                ),
+                              );
+
+                          Navigator.pop<bool>(context, true);
+                        }
+                      },
+                    ),
                   ],
                 ),
               ),

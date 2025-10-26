@@ -9,14 +9,13 @@ final class GetNotesEvent extends NotesEvent {
 }
 
 final class AddNoteEvent extends NotesEvent {
-  final NoteEntity data;
-  AddNoteEvent({required this.data});
+  final NoteParams params;
+  AddNoteEvent({required this.params});
 }
 
 final class UpdateNoteEvent extends NotesEvent {
-  final int id;
-  final Map<String, dynamic> data;
-  UpdateNoteEvent({required this.id, required this.data});
+  final NoteParams params;
+  UpdateNoteEvent({required this.params});
 }
 
 final class DeleteNoteEvent extends NotesEvent {

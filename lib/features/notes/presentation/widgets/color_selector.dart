@@ -15,7 +15,7 @@ class ColorSelector extends StatefulWidget {
 }
 
 class _ColorSelectorState extends State<ColorSelector> {
-  Color? selectedColor;
+  Color selectedColor = const Color(0x00000000);
 
   @override
   Widget build(BuildContext context) {

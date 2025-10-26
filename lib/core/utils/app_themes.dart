@@ -133,3 +133,148 @@ class MindBoxTheme {
     'entertainment': Color(0xFFF97316), // Orange-500 - ترفيه
   };
 }
+
+// import 'package:flutter/material.dart';
+
+// class MindBoxTheme {
+//   /// 🎨 خلفية التطبيق (Gradient)
+//   static const LinearGradient backgroundGradient = LinearGradient(
+//     begin: Alignment.topLeft,
+//     end: Alignment.bottomRight,
+//     colors: [
+//       Color(0xFF312E81), // indigo-900
+//       Color(0xFF581C87), // purple-900
+//       Color(0xFF831843), // pink-800
+//     ],
+//   );
+
+//   /// 🌟 الثيم الأساسي للتطبيق (Light Theme)
+//   static final ThemeData lightTheme = ThemeData(
+//     useMaterial3: true,
+//     brightness: Brightness.light,
+//     scaffoldBackgroundColor: Colors.transparent,
+
+//     // ✅ ألوان أساسية
+//     colorScheme: const ColorScheme.light(
+//       primary: Color(0xFF8B5CF6), // purple-500
+//       secondary: Color(0xFFEC4899), // pink-500
+//       surface: Colors.transparent,
+//     ),
+
+//     // 📝 نصوص
+//     textTheme: const TextTheme(
+//       headlineLarge: TextStyle(
+//         color: Colors.white,
+//         fontSize: 24,
+//         fontWeight: FontWeight.bold,
+//       ),
+//       titleLarge: TextStyle(
+//         color: Color(0xFFE9D5FF), // purple-200
+//         fontSize: 20,
+//         fontWeight: FontWeight.w600,
+//       ),
+//       bodyLarge: TextStyle(
+//         color: Color(0xFFECECEC), // شبه أبيض
+//         fontSize: 16,
+//         fontWeight: FontWeight.w400,
+//       ),
+//       bodyMedium: TextStyle(
+//         color: Color(0xFFD8B4FE), // purple-300
+//         fontSize: 14,
+//       ),
+//     ),
+
+//     // 🔘 الأزرار العائمة
+//     floatingActionButtonTheme: const FloatingActionButtonThemeData(
+//       backgroundColor: Color(0xFFF59E0B), // amber-400
+//       foregroundColor: Colors.white,
+//       elevation: 10,
+//       shape: CircleBorder(),
+//     ),
+
+//     // ✨ التأثيرات والظلال
+//     cardTheme: CardTheme(
+//       color: Colors.white.withValues(alpha: 0.1),
+//       elevation: 8,
+//       shape: RoundedRectangleBorder(
+//         borderRadius: BorderRadius.circular(20),
+//       ),
+//     ),
+
+//     iconTheme: const IconThemeData(
+//       color: Colors.white,
+//     ),
+//   );
+
+//   /// 🗒️ ألوان الملاحظات
+//   static const Map<String, List<Color>> noteColors = {
+//     'yellow': [
+//       Color(0xFFFBBF24), // فاتح
+//       Color(0xFFF59E0B), // متوسط
+//       Color(0xFFF97316), // غامق
+//     ],
+//     'blue': [
+//       Color(0xFF60A5FA), // فاتح
+//       Color(0xFF22D3EE), // متوسط
+//       Color(0xFF14B8A6), // غامق
+//     ],
+//     'pink': [
+//       Color(0xFFF472B6), // فاتح
+//       Color(0xFFFB7185), // متوسط
+//       Color(0xFFF87171), // غامق
+//     ],
+//     'green': [
+//       Color(0xFF4ADE80), // فاتح
+//       Color(0xFF34D399), // متوسط
+//       Color(0xFF14B8A6), // غامق
+//     ],
+//     'purple': [
+//       Color(0xFFA78BFA), // فاتح
+//       Color(0xFF8B5CF6), // متوسط
+//       Color(0xFF6366F1), // غامق
+//     ],
+//     'orange': [
+//       Color(0xFFFB923C), // فاتح
+//       Color(0xFFF87171), // متوسط
+//       Color(0xFFF472B6), // غامق
+//     ],
+//   };
+
+//   /// 💎 تأثير الزجاج (Glass Effect)
+//   static BoxDecoration glassEffect = BoxDecoration(
+//     color: Colors.white.withValues(alpha: 0.1),
+//     border: Border.all(
+//       color: Colors.white.withValues(alpha: 0.2),
+//     ),
+//     borderRadius: BorderRadius.circular(20),
+//     boxShadow: [
+//       BoxShadow(
+//         color: Colors.black.withValues(alpha: 0.2),
+//         blurRadius: 10,
+//         spreadRadius: 1,
+//       ),
+//     ],
+//     backgroundBlendMode: BlendMode.overlay,
+//   );
+
+//   /// 🟡 ألوان الأزرار العائمة (FAB)
+//   static const Map<String, LinearGradient> fabGradients = {
+//     'notes': LinearGradient(
+//       colors: [Color(0xFFFBBF24), Color(0xFFF97316)],
+//       begin: Alignment.topLeft,
+//       end: Alignment.bottomRight,
+//     ),
+//     'tasks': LinearGradient(
+//       colors: [Color(0xFF60A5FA), Color(0xFF6366F1)],
+//       begin: Alignment.topLeft,
+//       end: Alignment.bottomRight,
+//     ),
+//   };
+
+//   /// ⚙️ ألوان الحالات (Status)
+//   static const Map<String, Color> statusColors = {
+//     'completed': Color(0xFF10B981),
+//     'pending': Color(0xFF6366F1),
+//     'delete': Color(0xFFEF4444),
+//   };
+// }

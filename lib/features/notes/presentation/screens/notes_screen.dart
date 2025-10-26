@@ -1,11 +1,23 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:note_todo_app_mind_box/core/params/note_params.dart';
 import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
+import 'package:note_todo_app_mind_box/core/widgets/mind_box_widget.dart';
+import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/screens/add_note_screen.dart';
-import 'package:note_todo_app_mind_box/features/notes/presentation/screens/edit_note_screen.dart';
+import 'package:note_todo_app_mind_box/features/notes/presentation/utils/transition_route.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/note_card.dart';
 
-class NotesScreen extends StatelessWidget {
+class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
+
+  @override
+  State<NotesScreen> createState() => _NotesScreenState();
+}
+
+class _NotesScreenState extends State<NotesScreen> {
+  final TextEditingController titleController = TextEditingController();
+  final TextEditingController contentController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -13,115 +25,74 @@ class NotesScreen extends StatelessWidget {
 
     return Scaffold(
       body: Container(
-        decoration: BoxDecoration(gradient: MindBoxTheme.backgroundGradient),
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          children: [
-            Container(
-              padding: EdgeInsets.all(20),
-              margin: EdgeInsets.all(20),
-              height: 100,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.25),
-                borderRadius: BorderRadius.circular(25),
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.2),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Container(
-                    width: 90,
-                    height: 90,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
-                      gradient: LinearGradient(
-                        colors: [
-                          Color(0xFFB24592),
-                          Color(0xFFF15F79),
-                        ],
-                        begin: Alignment.topLeft,
-                        end: Alignment.bottomRight,
+        decoration: BoxDecoration(
+          gradient: MindBoxTheme.backgroundGradient,
+        ),
+        child: BlocBuilder<NotesBloc, NotesState>(
+          builder: (context, state) {
+            if (state is NotesLoading) {
+              return Center(
+                  child: const CircularProgressIndicator(color: Colors.white));
+            } else if (state is NotesLoaded) {
+              return ListView.builder(
+                padding: EdgeInsets.only(top: 30, bottom: 60),
+                physics: BouncingScrollPhysics(),
+                itemCount: state.notes.length + 1,
+                itemBuilder: (context, i) {
+                  if (i == 0) {
+                    return const MindBoxWidget();
+                  } else {
+                    final note = state.notes[i - 1];
+                    return NoteCard(
+                      note: NoteParams(
+                        id: note.id,
+                        title: note.title,
+                        content: note.content,
+                        color: note.color,
                       ),
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.25),
-                          blurRadius: 15,
-                          offset: Offset(0, 6), // ظل ناعم لتحت
-                        ),
-                      ],
-                    ),
-                    child: Center(
-                      child: Image.asset(
-                        'assets/images/brain.png',
-                        width: 40,
-                        height: 40,
-                        color: Colors
-                            .white, // يخلي الأيقونة بيضاء زي اللي في الصورة
-                      ),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 30,
-                  ),
-                  Text(
-                    "Mind Box",
-                    style: theme.textTheme.headlineLarge,
-                  ),
-                ],
-              ),
-            ),
-            NoteCard(
-              title: "title",
-              content: "content",
-              onTapDelete: () {},
-              onTapEdit: () => Navigator.push(
-                context,
-                _createTransparentRoute(
-                  EditNoteScreen(
-                    titleController: TextEditingController(),
-                    contentController: TextEditingController(),
-                  ),
+                    );
+                  }
+                },
+              );
+            } else if (state is NotesError) {
+              return Center(
+                child: Text(
+                  state.message,
+                  style: theme.textTheme.headlineLarge,
+                  textAlign: TextAlign.center,
                 ),
-              ),
-            )
-          ],
+              );
+            }
+            return Container(
+              padding: EdgeInsets.all(30),
+              margin: EdgeInsets.all(30),
+              color: Colors.grey[600],
+            );
+          },
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
+        heroTag: "add note",
+        onPressed: () async {
+          final bloc = context.read<NotesBloc>();
+
+          final bool result = await Navigator.push(
             context,
-            _createTransparentRoute(AddNoteScreen()),
+            createTransparentRoute(
+              BlocProvider.value(
+                value: bloc,
+                child: AddNoteScreen(),
+              ),
+            ),
           );
+
+          if (result && context.mounted) {
+            bloc.add(GetNotesEvent());
+          }
         },
         shape: CircleBorder(),
         child: IconTheme(data: theme.iconTheme, child: Icon(Icons.add)),
       ),
-    );
-  }
-
-  Route _createTransparentRoute(Widget screen) {
-    return PageRouteBuilder(
-      opaque: false,
-      barrierColor: Colors.black.withValues(alpha: 0.2),
-      transitionDuration: const Duration(milliseconds: 400),
-      pageBuilder: (context, animation, secondaryAnimation) => screen,
-      transitionsBuilder: (context, animation, secondaryAnimation, child) {
-        final offsetAnimation = Tween(
-          begin: const Offset(0, 1),
-          end: Offset.zero,
-        ).animate(
-            CurvedAnimation(parent: animation, curve: Curves.easeOutCubic));
-
-        return SlideTransition(
-          position: offsetAnimation,
-          child: FadeTransition(
-            opacity: animation,
-            child: child,
-          ),
-        );
-      },
     );
   }
 }

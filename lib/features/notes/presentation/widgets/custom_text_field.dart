@@ -21,22 +21,28 @@ class CustomTextField extends StatelessWidget {
       maxLines: keyboardType == TextInputType.multiline ? null : 1,
       cursorColor: Colors.white,
       style: TextStyle(color: Colors.white),
-      decoration: InputDecoration(
-        hintText: hintText,
-        hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
-        border: OutlineInputBorder(
-          borderSide: BorderSide.none,
-          borderRadius: BorderRadius.circular(13),
-        ),
-        filled: true,
-        fillColor: Colors.black.withValues(alpha: 0.4),
-      ),
-      validator: (value) {
-        if (value == null || value.isEmpty) {
-          return 'This field is required';
-        }
-        return null;
-      },
+      decoration: _decoration(),
+      validator: _validator,
     );
+  }
+
+  InputDecoration _decoration() {
+    return InputDecoration(
+      hintText: hintText,
+      hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+      border: OutlineInputBorder(
+        borderSide: BorderSide.none,
+        borderRadius: BorderRadius.circular(13),
+      ),
+      filled: true,
+      fillColor: Colors.black.withValues(alpha: 0.4),
+    );
+  }
+
+  String? _validator(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'This field is required';
+    }
+    return null;
   }
 }

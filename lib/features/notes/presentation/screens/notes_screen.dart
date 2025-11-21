@@ -21,8 +21,6 @@ class _NotesScreenState extends State<NotesScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
-
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -32,33 +30,15 @@ class _NotesScreenState extends State<NotesScreen> {
           builder: (context, state) {
             if (state is NotesLoading) {
               return Center(
-                  child: const CircularProgressIndicator(color: Colors.white));
-            } else if (state is NotesLoaded) {
-              return ListView.builder(
-                padding: EdgeInsets.only(top: 30, bottom: 60),
-                physics: BouncingScrollPhysics(),
-                itemCount: state.notes.length + 1,
-                itemBuilder: (context, i) {
-                  if (i == 0) {
-                    return const MindBoxWidget();
-                  } else {
-                    final note = state.notes[i - 1];
-                    return NoteCard(
-                      note: NoteParams(
-                        id: note.id,
-                        title: note.title,
-                        content: note.content,
-                        color: note.color,
-                      ),
-                    );
-                  }
-                },
+                child: const CircularProgressIndicator(color: Colors.white),
               );
+            } else if (state is NotesLoaded) {
+              return _notesView(state);
             } else if (state is NotesError) {
               return Center(
                 child: Text(
                   state.message,
-                  style: theme.textTheme.headlineLarge,
+                  style: Theme.of(context).textTheme.headlineLarge,
                   textAlign: TextAlign.center,
                 ),
               );
@@ -71,28 +51,60 @@ class _NotesScreenState extends State<NotesScreen> {
           },
         ),
       ),
-      floatingActionButton: FloatingActionButton(
-        heroTag: "add note",
-        onPressed: () async {
-          final bloc = context.read<NotesBloc>();
+      floatingActionButton: _floatingActionButton(),
+    );
+  }
 
-          final bool result = await Navigator.push(
-            context,
-            createTransparentRoute(
-              BlocProvider.value(
-                value: bloc,
-                child: AddNoteScreen(),
-              ),
+  ListView _notesView(NotesLoaded state) {
+    return ListView.builder(
+      padding: EdgeInsets.only(top: 30, bottom: 60),
+      physics: BouncingScrollPhysics(),
+      itemCount: state.notes.length + 1,
+      itemBuilder: (context, i) {
+        if (i == 0) {
+          return Center(
+            child: const MindBoxWidget(),
+          );
+        } else {
+          final note = state.notes[i - 1];
+          return NoteCard(
+            note: NoteParams(
+              id: note.id,
+              title: note.title,
+              content: note.content,
+              color: note.color,
             ),
           );
+        }
+      },
+    );
+  }
 
-          if (result && context.mounted) {
-            bloc.add(GetNotesEvent());
-          }
-        },
-        shape: CircleBorder(),
-        child: IconTheme(data: theme.iconTheme, child: Icon(Icons.add)),
-      ),
+  FloatingActionButton _floatingActionButton() {
+    void onPressed() async {
+      final bloc = context.read<NotesBloc>();
+
+      final bool result = await Navigator.push(
+        context,
+        createTransparentRoute(
+          BlocProvider.value(
+            value: bloc,
+            child: AddNoteScreen(),
+          ),
+        ),
+      );
+
+      if (result && context.mounted) {
+        bloc.add(GetNotesEvent());
+      }
+    }
+
+    return FloatingActionButton(
+      heroTag: "add note",
+      onPressed: onPressed,
+      shape: CircleBorder(),
+      child:
+          IconTheme(data: Theme.of(context).iconTheme, child: Icon(Icons.add)),
     );
   }
 }

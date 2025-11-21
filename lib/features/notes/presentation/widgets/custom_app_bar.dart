@@ -11,18 +11,7 @@ class CustomAppBar extends StatelessWidget {
       backgroundColor: Colors.white.withValues(alpha: 0.4),
       title: Row(
         children: [
-          Container(
-            width: 40,
-            height: 40,
-            decoration: BoxDecoration(
-              color: MindBoxTheme.orange,
-              borderRadius: BorderRadius.circular(13),
-            ),
-            child: Icon(
-              Icons.star_border_outlined,
-              size: 30,
-            ),
-          ),
+          _starIcon(),
           SizedBox(width: 20),
           Text(title),
         ],
@@ -30,6 +19,21 @@ class CustomAppBar extends StatelessWidget {
       centerTitle: false,
       titleTextStyle: Theme.of(context).textTheme.titleLarge,
       automaticallyImplyLeading: false,
+    );
+  }
+
+  Container _starIcon() {
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: MindBoxTheme.orange,
+        borderRadius: BorderRadius.circular(13),
+      ),
+      child: Icon(
+        Icons.star_border_outlined,
+        size: 30,
+      ),
     );
   }
 }

@@ -3,6 +3,18 @@
 import 'package:flutter/material.dart';
 
 Route createTransparentRoute(Widget screen) {
+  // return MaterialPageRoute(
+  //   builder: (context) {
+  //     return TweenAnimationBuilder(
+  //       tween: Tween(),
+  //       duration: Duration(microseconds: 600),
+  //       builder: (context, value, child) {
+  //         return child!;
+  //       },
+  //     );
+  //   },
+  // );
+
   return PageRouteBuilder(
     opaque: false,
     barrierColor: Colors.black.withValues(alpha: 0.2),

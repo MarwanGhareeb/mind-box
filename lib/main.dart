@@ -7,7 +7,7 @@ import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await CacheHelper.init();
-  await init();
+  await initDependencies();
 
   runApp(const MyApp());
 }

@@ -8,14 +8,11 @@ import 'package:note_todo_app_mind_box/features/notes/presentation/utils/transit
 
 class NoteCard extends StatelessWidget {
   final NoteParams note;
-  static int numTag = 0;
 
-  NoteCard({
+  const NoteCard({
     super.key,
     required this.note,
-  }) {
-    numTag++;
-  }
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -48,62 +45,72 @@ class NoteCard extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
-                  Container(
-                    decoration: BoxDecoration(
-                      boxShadow: [
-                        BoxShadow(
-                          color: Colors.black.withValues(alpha: 0.25),
-                          blurRadius: 15,
-                          offset: Offset(0, 6), // ظل ناعم لتحت
-                        ),
-                      ],
-                    ),
-                    child: FloatingActionButton.small(
-                      heroTag: "$numTag",
-                      onPressed: () async {
-                        final bloc = context.read<NotesBloc>();
-
-                        final bool result = await Navigator.push(
-                          context,
-                          createTransparentRoute(
-                            BlocProvider.value(
-                              value: bloc,
-                              child: EditNoteScreen(note: note),
-                            ),
-                          ),
-                        );
-
-                        if (result && context.mounted) {
-                          bloc.add(GetNotesEvent());
-                        }
-                      },
-                      backgroundColor: Colors.white.withValues(alpha: 0.3),
-                      child: Icon(
-                        Icons.edit_outlined,
-                        size: 20,
-                      ),
-                    ),
-                  ),
+                  _editButton(context),
                   SizedBox(width: 3),
-                  FloatingActionButton.small(
-                    heroTag: "${numTag += 1}",
-                    onPressed: () {
-                      final bloc = context.read<NotesBloc>();
-
-                      bloc.add(DeleteNoteEvent(id: note.id!));
-                      bloc.add(GetNotesEvent());
-                    },
-                    backgroundColor: const Color.fromARGB(255, 255, 127, 127),
-                    child: Icon(
-                      CupertinoIcons.trash,
-                      size: 20,
-                    ),
-                  ),
+                  _deleteButton(context),
                 ],
               ),
             ],
           ),
         ),
+      ),
+    );
+  }
+
+  Container _editButton(BuildContext context) {
+    void onPressed() async {
+      final bloc = context.read<NotesBloc>();
+
+      final bool result = await Navigator.push(
+        context,
+        createTransparentRoute(
+          BlocProvider.value(
+            value: bloc,
+            child: EditNoteScreen(note: note),
+          ),
+        ),
+      );
+
+      if (result && context.mounted) {
+        bloc.add(GetNotesEvent());
+      }
+    }
+
+    return Container(
+      decoration: BoxDecoration(
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withValues(alpha: 0.25),
+            blurRadius: 15,
+            offset: Offset(0, 6),
+          ),
+        ],
+      ),
+      child: FloatingActionButton.small(
+        onPressed: onPressed,
+        backgroundColor: Colors.white.withValues(alpha: 0.3),
+        child: Icon(
+          Icons.edit_outlined,
+          size: 20,
+        ),
+      ),
+    );
+  }
+
+  FloatingActionButton _deleteButton(BuildContext context) {
+    void onPressed() async {
+      final bloc = context.read<NotesBloc>();
+
+      bloc.add(DeleteNoteEvent(id: note.id!));
+      bloc.add(GetNotesEvent());
+    }
+
+    return FloatingActionButton.small(
+      onPressed: onPressed,
+      backgroundColor: const Color.fromARGB(255, 255, 127, 127),
+      child: Icon(
+        CupertinoIcons.trash,
+        size: 20,
       ),
     );
   }

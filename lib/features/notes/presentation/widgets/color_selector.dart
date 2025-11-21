@@ -25,32 +25,44 @@ class _ColorSelectorState extends State<ColorSelector> {
         (color) {
           bool isSelected = selectedColor == color;
 
+          void onColorTapped() {
+            setState(() {
+              selectedColor = color;
+            });
+            if (widget.onColorSelected != null) {
+              widget.onColorSelected!(color);
+            }
+          }
+
           return Expanded(
             child: InkWell(
-              onTap: () {
-                setState(() {
-                  selectedColor = color;
-                });
-                if (widget.onColorSelected != null) {
-                  widget.onColorSelected!(color);
-                }
-              },
-              child: AnimatedContainer(
-                duration: const Duration(milliseconds: 200),
-                height: 50,
-                decoration: BoxDecoration(
-                  color: color,
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                    color: isSelected ? Colors.white : Colors.transparent,
-                    width: 4,
-                  ),
-                ),
+              onTap: onColorTapped,
+              child: _customAnimatedContainer(
+                color: color,
+                isSelected: isSelected,
               ),
             ),
           );
         },
       ).toList(),
+    );
+  }
+
+  AnimatedContainer _customAnimatedContainer({
+    required Color color,
+    required bool isSelected,
+  }) {
+    return AnimatedContainer(
+      duration: const Duration(milliseconds: 200),
+      height: 50,
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: isSelected ? Colors.white : Colors.transparent,
+          width: 4,
+        ),
+      ),
     );
   }
 }

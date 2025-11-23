@@ -24,9 +24,9 @@ class NoteFormScreen extends StatefulWidget {
   State<NoteFormScreen> createState() => _NoteFormScreenState();
 }
 
-class _NoteFormScreenState extends State<NoteFormScreen> {
+class _NoteFormScreenState extends State<NoteFormScreen>
+    with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  double offsetY = 0;
 
   late final TextEditingController titleController;
   late final TextEditingController contentController;
@@ -51,39 +51,18 @@ class _NoteFormScreenState extends State<NoteFormScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onVerticalDragUpdate: (details) {
-        setState(() => offsetY += details.delta.dy);
-      },
-      onVerticalDragEnd: (details) {
-        (offsetY > 100) ? Navigator.pop(context) : setState(() => offsetY = 0);
-      },
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 300),
-        transform:
-            Matrix4.translationValues(0, offsetY.clamp(0, double.infinity), 0),
-        child: Scaffold(
-          backgroundColor: Colors.white.withValues(alpha: 0.3),
-          appBar: PreferredSize(
-            preferredSize: const Size.fromHeight(kToolbarHeight),
-            child: CustomAppBar(title: widget.appBarTitle),
-          ),
-          body: Stack(
-            children: [
-              BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
-                child: Container(color: Colors.transparent),
-              ),
-              Form(
-                key: _formKey,
-                child: ListView(
-                  physics: BouncingScrollPhysics(),
-                  padding: EdgeInsets.only(left: 20, right: 20, top: 50),
-                  children: _itemsForAddScreen(),
-                ),
-              ),
-            ],
-          ),
+    return Scaffold(
+      backgroundColor: Colors.white.withValues(alpha: 0.3),
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: CustomAppBar(title: widget.appBarTitle),
+      ),
+      body: Form(
+        key: _formKey,
+        child: ListView(
+          physics: BouncingScrollPhysics(),
+          padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+          children: _itemsForAddScreen(),
         ),
       ),
     );
@@ -118,6 +97,7 @@ class _NoteFormScreenState extends State<NoteFormScreen> {
       SizedBox(height: 50),
       ActionButtons(
         onSave: _onSave,
+        onCancle: () => Navigator.pop(context),
       ),
     ];
   }

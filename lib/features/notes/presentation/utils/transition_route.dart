@@ -1,24 +1,15 @@
 // ignore_for_file: unused_element
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 
 Route createTransparentRoute(Widget screen) {
-  // return MaterialPageRoute(
-  //   builder: (context) {
-  //     return TweenAnimationBuilder(
-  //       tween: Tween(),
-  //       duration: Duration(microseconds: 600),
-  //       builder: (context, value, child) {
-  //         return child!;
-  //       },
-  //     );
-  //   },
-  // );
-
   return PageRouteBuilder(
     opaque: false,
-    barrierColor: Colors.black.withValues(alpha: 0.2),
-    transitionDuration: const Duration(milliseconds: 400),
+    barrierColor: Colors.black.withValues(alpha: 0.3),
+    transitionDuration: const Duration(milliseconds: 1000),
+    reverseTransitionDuration: Duration(milliseconds: 800),
     pageBuilder: (context, animation, secondaryAnimation) => screen,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
       final offsetAnimation = Tween(
@@ -30,7 +21,13 @@ Route createTransparentRoute(Widget screen) {
         position: offsetAnimation,
         child: FadeTransition(
           opacity: animation,
-          child: child,
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            child: Container(
+              color: Colors.transparent,
+              child: child,
+            ),
+          ),
         ),
       );
     },

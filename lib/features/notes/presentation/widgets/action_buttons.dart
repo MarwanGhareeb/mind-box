@@ -3,7 +3,9 @@ import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
 
 class ActionButtons extends StatelessWidget {
   final void Function() onSave;
-  const ActionButtons({super.key, required this.onSave});
+  final void Function() onCancle;
+  const ActionButtons(
+      {super.key, required this.onSave, required this.onCancle});
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class ActionButtons extends StatelessWidget {
           ),
           backgroundColor: Colors.grey.shade100.withValues(alpha: 0.3),
         ),
-        onPressed: () => Navigator.pop(context),
+        onPressed: onCancle,
         child: Text(
           "Cancel",
           style: Theme.of(context)

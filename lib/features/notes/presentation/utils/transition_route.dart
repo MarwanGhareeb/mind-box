@@ -1,30 +1,34 @@
-// ignore_for_file: unused_element
-
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 
 Route createTransparentRoute(Widget screen) {
   return PageRouteBuilder(
     opaque: false,
+    barrierDismissible: true,
     barrierColor: Colors.black.withValues(alpha: 0.3),
-    transitionDuration: const Duration(milliseconds: 1000),
-    reverseTransitionDuration: Duration(milliseconds: 800),
+    transitionDuration: const Duration(seconds: 1),
+    reverseTransitionDuration: const Duration(milliseconds: 800),
     pageBuilder: (context, animation, secondaryAnimation) => screen,
     transitionsBuilder: (context, animation, secondaryAnimation, child) {
-      final offsetAnimation = Tween(
+      final curved = CurvedAnimation(
+        parent: animation,
+        curve: Curves.easeOutCubic,
+        reverseCurve: Curves.easeInCubic,
+      );
+
+      final slide = Tween<Offset>(
         begin: const Offset(0, 1),
         end: Offset.zero,
-      ).animate(CurvedAnimation(parent: animation, curve: Curves.easeOutCubic));
+      ).animate(curved);
 
       return SlideTransition(
-        position: offsetAnimation,
+        position: slide,
         child: FadeTransition(
-          opacity: animation,
+          opacity: curved,
           child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 15, sigmaY: 15),
+            filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
             child: Container(
-              color: Colors.transparent,
+              color: Colors.black.withValues(alpha: 0.4),
               child: child,
             ),
           ),

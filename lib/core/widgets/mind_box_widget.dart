@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:developer';
 import 'package:animated_text_kit2/animated_text_kit2.dart';
 import 'package:flutter/material.dart';
 
@@ -108,7 +107,6 @@ class _MindBoxWidgetState extends State<MindBoxWidget>
     }
 
     Container brainContainer() {
-      log("Rebuilded...");
       return Container(
         width: 60,
         height: 90,

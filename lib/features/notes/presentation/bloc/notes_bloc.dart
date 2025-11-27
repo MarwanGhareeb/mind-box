@@ -23,60 +23,97 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     this._deleteNoteUseCase,
   ) : super(NotesInitial()) {
     // G E T
-    on<GetNotesEvent>((event, emit) async {
-      emit(NotesLoading());
+    on<GetNotesEvent>(
+      (event, emit) async {
+        emit(NotesLoading());
 
-      final results = await _getNotesUseCase.call(
-        title: event.title.isEmpty ? null : event.title,
-      );
+        final results = await _getNotesUseCase.call(
+          title: event.title.isEmpty ? null : event.title,
+        );
 
-      results.fold(
-        (failure) => emit(NotesError(message: failure.message)),
-        (notes) => emit(NotesLoaded(notes: notes)),
-      );
-    });
+        results.fold(
+          (failure) => emit(NotesError(message: failure.message)),
+          (notes) => emit(NotesLoaded(notes: notes)),
+        );
+      },
+    );
 
     // A D D
-    on<AddNoteEvent>((event, emit) async {
-      emit(NotesLoading());
+    on<AddNoteEvent>(
+      (event, emit) async {
+        if (state is NotesLoaded) {
+          final currentState = state as NotesLoaded;
 
-      final results = await _addNoteUseCase.call(
-        NoteParams(
-          title: event.params.title,
-          content: event.params.content,
-          color: event.params.color,
-        ),
-      );
+          final result = await _addNoteUseCase.call(event.params);
 
-      results.fold(
-        (failure) => emit(NotesError(message: failure.message)),
-        (success) => emit(SuccessProcess()),
-      );
-    });
+          result.fold(
+            (failure) => emit(NotesError(message: failure.message)),
+            (noteId) {
+              final newNote = NoteEntity(
+                id: noteId,
+                title: event.params.title,
+                content: event.params.content,
+                color: event.params.color,
+              );
+
+              final updatedList = [...currentState.notes, newNote];
+              emit(currentState.copyWith(notes: updatedList));
+            },
+          );
+        }
+      },
+    );
 
     // U P D A T E
-    on<UpdateNoteEvent>((event, emit) async {
-      emit(NotesLoading());
+    on<UpdateNoteEvent>(
+      (event, emit) async {
+        if (state is NotesLoaded) {
+          final currentState = state as NotesLoaded;
 
-      final results = await _updateNoteUseCase.call(event.params);
+          final results = await _updateNoteUseCase.call(event.params);
 
-      results.fold(
-        (failure) => emit(NotesError(message: failure.message)),
-        (success) => emit(SuccessProcess()),
-      );
-    });
+          results.fold(
+            (failure) => emit(NotesError(message: failure.message)),
+            (_) {
+              final updatedList = currentState.notes.map(
+                (note) {
+                  return note.id == event.params.id
+                      ? NoteEntity(
+                          id: event.params.id!,
+                          title: event.params.title,
+                          content: event.params.content,
+                          color: event.params.color,
+                        )
+                      : note;
+                },
+              ).toList();
+
+              emit(currentState.copyWith(notes: updatedList));
+            },
+          );
+        }
+      },
+    );
 
     // D E L E T E
     on<DeleteNoteEvent>(
       (event, emit) async {
-        emit(NotesLoading());
+        if (state is NotesLoaded) {
+          final currentState = state as NotesLoaded;
 
-        final results = await _deleteNoteUseCase.call(id: event.id);
+          final results = await _deleteNoteUseCase.call(id: event.id);
 
-        results.fold(
-          (failure) => emit(NotesError(message: failure.message)),
-          (success) => emit(SuccessProcess()),
-        );
+          results.fold(
+            (failure) => emit(NotesError(message: failure.message)),
+            (_) {
+              final updatedList = currentState.notes
+                  .where((note) => note.id != event.id)
+                  .toList();
+
+              emit(currentState.copyWith(notes: updatedList));
+            },
+          );
+        }
       },
     );
   }

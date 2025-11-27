@@ -75,7 +75,7 @@ class MindBoxTheme {
       elevation: 100,
     ),
     iconTheme: const IconThemeData(
-      color: violet,
+      color: Colors.white,
       size: 25,
     ),
     cardTheme: CardThemeData(

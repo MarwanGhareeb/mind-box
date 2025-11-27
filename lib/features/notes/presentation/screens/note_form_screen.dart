@@ -1,11 +1,11 @@
-import 'dart:ui';
 import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_todo_app_mind_box/core/params/note_params.dart';
 import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
+import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
-import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/action_buttons.dart';
+import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/save_button.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/color_selector.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/custom_app_bar.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/custom_text_field.dart';
@@ -13,12 +13,12 @@ import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/custo
 class NoteFormScreen extends StatefulWidget {
   const NoteFormScreen({
     super.key,
-    required this.appBarTitle,
+    required this.title,
     this.initialNote,
   });
 
-  final String appBarTitle;
-  final NoteParams? initialNote;
+  final String title;
+  final NoteEntity? initialNote;
 
   @override
   State<NoteFormScreen> createState() => _NoteFormScreenState();
@@ -43,19 +43,26 @@ class _NoteFormScreenState extends State<NoteFormScreen>
     } else {
       titleController = TextEditingController();
       contentController = TextEditingController();
-      backgroundNoteColor = Colors.transparent.withValues(alpha: 0.3);
+      backgroundNoteColor = Colors.transparent;
     }
 
     super.initState();
   }
 
   @override
+  void dispose() {
+    titleController.dispose();
+    contentController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withValues(alpha: 0.3),
+      backgroundColor: Colors.white.withValues(alpha: 0.05),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(title: widget.appBarTitle),
+        child: CustomAppBar(title: widget.title),
       ),
       body: Form(
         key: _formKey,
@@ -90,24 +97,35 @@ class _NoteFormScreenState extends State<NoteFormScreen>
       SizedBox(height: 10),
       ColorSelector(
         colors: MindBoxTheme.noteColors,
+        initialColor: Color(widget.initialNote?.color ?? 0x00000000),
         onColorSelected: (selectedColor) {
           backgroundNoteColor = selectedColor;
         },
       ),
       SizedBox(height: 50),
-      ActionButtons(
+      SaveButton(
         onSave: _onSave,
-        onCancle: () => Navigator.pop(context),
       ),
+      SizedBox(height: 100),
     ];
   }
 
   void _onSave() {
     if (_formKey.currentState!.validate()) {
-      if (backgroundNoteColor != Colors.transparent) {
+      if (backgroundNoteColor == Colors.transparent) {
         AwesomeDialog(
           context: context,
-        );
+          dialogType: DialogType.info,
+          animType: AnimType.scale,
+          headerAnimationLoop: false,
+          title: '\nColor Required',
+          dialogBackgroundColor: Colors.blueGrey,
+          btnOkText: 'Ok',
+          buttonsTextStyle:
+              TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+          btnOkOnPress: () {},
+        ).show();
+        return;
       }
 
       final noteParams = NoteParams(
@@ -118,16 +136,12 @@ class _NoteFormScreenState extends State<NoteFormScreen>
       );
 
       if (widget.initialNote != null) {
-        context.read<NotesBloc>().add(
-              UpdateNoteEvent(params: noteParams),
-            );
+        context.read<NotesBloc>().add(UpdateNoteEvent(params: noteParams));
       } else {
-        context.read<NotesBloc>().add(
-              AddNoteEvent(params: noteParams),
-            );
+        context.read<NotesBloc>().add(AddNoteEvent(params: noteParams));
       }
 
-      Navigator.pop<bool>(context, true);
+      Navigator.pop(context);
     }
   }
 }

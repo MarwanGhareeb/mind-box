@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/color_widget.dart';
 
 class ColorSelector extends StatefulWidget {
   final List<Color> colors;
+  final Color initialColor;
   final void Function(Color selectedColor)? onColorSelected;
 
   const ColorSelector({
     super.key,
     required this.colors,
+    required this.initialColor,
     this.onColorSelected,
   });
 
@@ -15,7 +18,20 @@ class ColorSelector extends StatefulWidget {
 }
 
 class _ColorSelectorState extends State<ColorSelector> {
-  Color selectedColor = const Color(0x00000000);
+  late final ValueNotifier<Color> selectedColorNotifier;
+
+  @override
+  void initState() {
+    selectedColorNotifier = ValueNotifier<Color>(widget.initialColor);
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    selectedColorNotifier.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -23,46 +39,20 @@ class _ColorSelectorState extends State<ColorSelector> {
       spacing: 10,
       children: widget.colors.map(
         (color) {
-          bool isSelected = selectedColor == color;
-
           void onColorTapped() {
-            setState(() {
-              selectedColor = color;
-            });
-            if (widget.onColorSelected != null) {
-              widget.onColorSelected!(color);
-            }
+            selectedColorNotifier.value == color
+                ? selectedColorNotifier.value = Color(0x00000000)
+                : selectedColorNotifier.value = color;
+            widget.onColorSelected?.call(selectedColorNotifier.value);
           }
 
-          return Expanded(
-            child: InkWell(
-              onTap: onColorTapped,
-              child: _customAnimatedContainer(
-                color: color,
-                isSelected: isSelected,
-              ),
-            ),
+          return ColorWidget(
+            color: color,
+            selectedColorNotifier: selectedColorNotifier,
+            onTap: onColorTapped,
           );
         },
       ).toList(),
-    );
-  }
-
-  AnimatedContainer _customAnimatedContainer({
-    required Color color,
-    required bool isSelected,
-  }) {
-    return AnimatedContainer(
-      duration: const Duration(milliseconds: 200),
-      height: 50,
-      decoration: BoxDecoration(
-        color: color,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(
-          color: isSelected ? Colors.white : Colors.transparent,
-          width: 4,
-        ),
-      ),
     );
   }
 }

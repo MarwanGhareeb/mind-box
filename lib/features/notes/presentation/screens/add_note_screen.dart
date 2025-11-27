@@ -7,7 +7,7 @@ class AddNoteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return NoteFormScreen(
-      appBarTitle: "New Note",
+      title: "New Note",
     );
   }
 }

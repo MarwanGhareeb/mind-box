@@ -12,6 +12,14 @@ final class NotesLoading extends NotesState {}
 final class NotesLoaded extends NotesState {
   final List<NoteEntity> notes;
   NotesLoaded({required this.notes});
+
+  NotesLoaded copyWith({
+    List<NoteEntity>? notes,
+  }) {
+    return NotesLoaded(
+      notes: notes ?? this.notes,
+    );
+  }
 }
 
 final class NotesError extends NotesState {

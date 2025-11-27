@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class CustomTextField extends StatelessWidget {
+class CustomTextField extends StatefulWidget {
   final String hintText;
   final TextEditingController controller;
   final TextInputType keyboardType;
@@ -13,14 +13,39 @@ class CustomTextField extends StatelessWidget {
   });
 
   @override
+  State<CustomTextField> createState() => _CustomTextFieldState();
+}
+
+class _CustomTextFieldState extends State<CustomTextField> {
+  final FocusNode _focusNode = FocusNode();
+  bool _isFocused = false;
+
+  @override
+  void initState() {
+    _focusNode.addListener(
+      () => setState(
+        () => _isFocused = _focusNode.hasFocus,
+      ),
+    );
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      minLines: keyboardType == TextInputType.multiline ? 5 : null,
-      maxLines: keyboardType == TextInputType.multiline ? null : 1,
+      controller: widget.controller,
+      focusNode: _focusNode,
+      keyboardType: widget.keyboardType,
+      minLines: widget.keyboardType == TextInputType.multiline ? 5 : null,
+      maxLines: widget.keyboardType == TextInputType.multiline ? null : 1,
       cursorColor: Colors.white,
-      style: TextStyle(color: Colors.white),
+      style: TextStyle(color: Colors.white, fontSize: 17),
       decoration: _decoration(),
       validator: _validator,
     );
@@ -28,14 +53,17 @@ class CustomTextField extends StatelessWidget {
 
   InputDecoration _decoration() {
     return InputDecoration(
-      hintText: hintText,
+      errorStyle: TextStyle(fontSize: 16),
+      hintText: widget.hintText,
       hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
       border: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(13),
       ),
       filled: true,
-      fillColor: Colors.black.withValues(alpha: 0.4),
+      fillColor: _isFocused
+          ? Colors.white.withValues(alpha: 0.4)
+          : Colors.white.withValues(alpha: 0.2),
     );
   }
 

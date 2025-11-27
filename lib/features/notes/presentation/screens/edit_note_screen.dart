@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_todo_app_mind_box/core/params/note_params.dart';
+import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/screens/note_form_screen.dart';
 
 class EditNoteScreen extends StatelessWidget {
@@ -8,12 +8,12 @@ class EditNoteScreen extends StatelessWidget {
     required this.note,
   });
 
-  final NoteParams note;
+  final NoteEntity note;
 
   @override
   Widget build(BuildContext context) {
     return NoteFormScreen(
-      appBarTitle: "Edit Note",
+      title: "Edit Note",
       initialNote: note,
     );
   }

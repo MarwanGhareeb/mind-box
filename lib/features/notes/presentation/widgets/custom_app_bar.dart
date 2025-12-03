@@ -38,7 +38,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           ),
           child: FloatingActionButton.small(
             heroTag: "appBar",
-            onPressed: () => Navigator.pop(context),
+            onPressed: () => Navigator.pop<bool>(context, false),
             backgroundColor: Colors.white.withValues(alpha: 0.05),
             child: Icon(
               Icons.close,

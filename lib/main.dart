@@ -12,6 +12,8 @@ Future<void> main() async {
   runApp(const MyApp());
 }
 
+final RouteObserver<PageRoute> routeObserver = RouteObserver<PageRoute>();
+
 class MyApp extends StatelessWidget {
   const MyApp({super.key});
 
@@ -21,6 +23,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: MindBoxTheme.lightTheme,
       home: const HomeScreen(),
+      navigatorObservers: [routeObserver],
     );
   }
 }

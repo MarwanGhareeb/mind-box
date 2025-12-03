@@ -141,7 +141,7 @@ class _NoteFormScreenState extends State<NoteFormScreen>
         context.read<NotesBloc>().add(AddNoteEvent(params: noteParams));
       }
 
-      Navigator.pop(context);
+      Navigator.pop<bool>(context, true);
     }
   }
 }

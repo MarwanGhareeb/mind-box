@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'package:animated_text_kit2/animated_text_kit2.dart';
 import 'package:flutter/material.dart';
+import 'package:note_todo_app_mind_box/main.dart';
 
 class MindBoxWidget extends StatefulWidget {
   const MindBoxWidget({super.key});
@@ -10,7 +11,7 @@ class MindBoxWidget extends StatefulWidget {
 }
 
 class _MindBoxWidgetState extends State<MindBoxWidget>
-    with WidgetsBindingObserver {
+    with WidgetsBindingObserver, RouteAware {
   final ValueNotifier<double> _turns = ValueNotifier<double>(0);
 
   Timer? _timer;
@@ -48,8 +49,28 @@ class _MindBoxWidgetState extends State<MindBoxWidget>
   }
 
   @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    final modalRoute = ModalRoute.of(context);
+    if (modalRoute is PageRoute) {
+      routeObserver.subscribe(this, modalRoute);
+    }
+  }
+
+  @override
+  void didPushNext() {
+    _stopTimer();
+  }
+
+  @override
+  void didPopNext() {
+    _startTimer();
+  }
+
+  @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    routeObserver.unsubscribe(this);
     _stopTimer();
     _turns.dispose();
     super.dispose();
@@ -61,7 +82,7 @@ class _MindBoxWidgetState extends State<MindBoxWidget>
       child: Row(
         children: [
           _rotatingBrain(),
-          SizedBox(width: 30),
+          const SizedBox(width: 30),
           _animatedText(text: "Mind Box"),
         ],
       ),
@@ -77,14 +98,14 @@ class _MindBoxWidgetState extends State<MindBoxWidget>
         color: Colors.white.withValues(alpha: 0.25),
         borderRadius: BorderRadius.circular(25),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.2),
+          color: Colors.white.withValues(alpha: 0.3),
         ),
       ),
       child: child,
     );
   }
 
-  Widget _rotatingBrain() {
+  RepaintBoundary _rotatingBrain() {
     BoxDecoration decorationOfBrainContainer() {
       return BoxDecoration(
         borderRadius: BorderRadius.circular(21),
@@ -122,28 +143,32 @@ class _MindBoxWidgetState extends State<MindBoxWidget>
       );
     }
 
-    return ValueListenableBuilder(
-      valueListenable: _turns,
-      child: brainContainer(),
-      builder: (context, value, child) {
-        return AnimatedRotation(
-          duration: Duration(milliseconds: 1200),
-          turns: value,
-          curve: Curves.easeInOutCubic,
-          child: child,
-        );
-      },
+    return RepaintBoundary(
+      child: ValueListenableBuilder(
+        valueListenable: _turns,
+        child: brainContainer(),
+        builder: (context, value, child) {
+          return AnimatedRotation(
+            duration: Duration(milliseconds: 1200),
+            turns: value,
+            curve: Curves.easeInOutCubic,
+            child: child,
+          );
+        },
+      ),
     );
   }
 
-  SplitCharactersAnimatedText _animatedText({required String text}) {
-    return AnimatedTextKit2.SplitCharacters(
-      text: text,
-      repeat: true,
-      textStyle: Theme.of(context).textTheme.headlineLarge,
-      characterDelay: const Duration(milliseconds: 50),
-      delay: const Duration(milliseconds: 1500),
-      duration: const Duration(milliseconds: 2000),
+  RepaintBoundary _animatedText({required String text}) {
+    return RepaintBoundary(
+      child: AnimatedTextKit2.SplitCharacters(
+        text: text,
+        repeat: true,
+        textStyle: Theme.of(context).textTheme.headlineLarge,
+        characterDelay: const Duration(milliseconds: 50),
+        delay: const Duration(milliseconds: 200),
+        duration: const Duration(milliseconds: 2000),
+      ),
     );
   }
 }

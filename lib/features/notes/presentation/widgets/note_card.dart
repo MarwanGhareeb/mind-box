@@ -8,40 +8,35 @@ import 'package:note_todo_app_mind_box/features/notes/presentation/utils/transit
 
 class NoteCard extends StatelessWidget {
   final NoteEntity note;
+  final VoidCallback onDelete;
 
   const NoteCard({
     super.key,
     required this.note,
+    required this.onDelete,
   });
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData theme = Theme.of(context);
+    final theme = Theme.of(context);
 
     return InkWell(
       onTap: () {},
       child: Card(
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(25),
+        ),
         color: Color(note.color),
-        child: Container(
-          margin: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            bottom: 20,
-            top: 20,
-          ),
+        margin: EdgeInsets.all(16),
+        child: Padding(
+          padding: EdgeInsets.all(20),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text(
-                note.title,
-                style: theme.textTheme.titleLarge,
-              ),
+              Text(note.title, style: theme.textTheme.titleLarge),
               SizedBox(height: 10),
-              Text(
-                note.content,
-                style: theme.textTheme.bodyLarge,
-              ),
-              SizedBox(height: 30),
+              Text(note.content, style: theme.textTheme.bodyLarge),
+              SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.end,
                 children: [
@@ -100,15 +95,9 @@ class NoteCard extends StatelessWidget {
   }
 
   FloatingActionButton _deleteButton(BuildContext context) {
-    void onPressed() async {
-      final bloc = context.read<NotesBloc>();
-
-      bloc.add(DeleteNoteEvent(id: note.id));
-    }
-
     return FloatingActionButton(
       heroTag: "delete_${note.id}",
-      onPressed: onPressed,
+      onPressed: onDelete,
       backgroundColor: const Color.fromARGB(255, 255, 127, 127),
       child: Icon(
         CupertinoIcons.trash,

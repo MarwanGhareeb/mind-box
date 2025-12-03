@@ -8,8 +8,18 @@ import 'package:note_todo_app_mind_box/features/notes/presentation/screens/add_n
 import 'package:note_todo_app_mind_box/features/notes/presentation/utils/transition_route.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/note_card.dart';
 
-class NotesScreen extends StatelessWidget {
+class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
+
+  @override
+  State<NotesScreen> createState() => _NotesScreenState();
+}
+
+class _NotesScreenState extends State<NotesScreen> {
+  final GlobalKey<AnimatedListState> _listNotesKey =
+      GlobalKey<AnimatedListState>();
+
+  int _notesLength = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -33,7 +43,7 @@ class NotesScreen extends StatelessWidget {
                 ),
               );
             } else if (state is NotesLoaded) {
-              return _notesView();
+              return _notesViewAnimated();
             }
             return Container(
               margin: EdgeInsets.all(30),
@@ -46,7 +56,7 @@ class NotesScreen extends StatelessWidget {
     );
   }
 
-  Widget _notesView() {
+  Widget _notesViewAnimated() {
     return BlocSelector<NotesBloc, NotesState, List<NoteEntity>>(
       selector: (state) {
         if (state is NotesLoaded) {
@@ -55,17 +65,33 @@ class NotesScreen extends StatelessWidget {
         return [];
       },
       builder: (context, notes) {
-        return ListView.builder(
-          padding: EdgeInsets.only(top: 30, bottom: 60),
+        _notesLength = notes.length;
+
+        return AnimatedList(
+          key: _listNotesKey,
+          padding: EdgeInsets.only(top: 20, bottom: 70),
           physics: BouncingScrollPhysics(),
-          itemCount: notes.length + 1,
-          itemBuilder: (context, i) {
+          initialItemCount: _notesLength + 1,
+          itemBuilder: (context, i, animation) {
             if (i == 0) {
               return const Center(child: MindBoxWidget());
             } else if (i - 1 < notes.length) {
-              return NoteCard(
-                key: ValueKey(notes[i - 1].id),
-                note: notes[i - 1],
+              return SlideTransition(
+                position: Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+                    .animate(
+                  CurvedAnimation(
+                    parent: animation,
+                    curve: Curves.easeInOutBack,
+                  ),
+                ),
+                child: ScaleTransition(
+                  scale: animation,
+                  child: NoteCard(
+                    key: ValueKey(notes[i - 1].id),
+                    note: notes[i - 1],
+                    onDelete: () => _onPressDelete(notes[i - 1], index: i),
+                  ),
+                ),
               );
             }
             return const SizedBox.shrink();
@@ -75,11 +101,38 @@ class NotesScreen extends StatelessWidget {
     );
   }
 
+  void _onPressDelete(NoteEntity note, {required int index}) async {
+    context.read<NotesBloc>().add(DeleteNoteEvent(id: note.id));
+
+    await Future.delayed(Duration(milliseconds: 5));
+
+    _listNotesKey.currentState!.removeItem(
+      index,
+      (context, animation) {
+        return SlideTransition(
+          position:
+              Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0)).animate(
+            animation,
+          ),
+          child: ScaleTransition(
+            scale: animation,
+            child: NoteCard(
+              key: ValueKey(note.id),
+              note: note,
+              onDelete: () {},
+            ),
+          ),
+        );
+      },
+      duration: Duration(milliseconds: 800),
+    );
+  }
+
   FloatingActionButton _floatingActionButton(BuildContext context) {
     void onPressed() async {
       final bloc = context.read<NotesBloc>();
 
-      await Navigator.push(
+      final bool res = await Navigator.push(
         context,
         createTransparentRoute(
           BlocProvider.value(
@@ -88,6 +141,13 @@ class NotesScreen extends StatelessWidget {
           ),
         ),
       );
+
+      if (res) {
+        _listNotesKey.currentState!.insertItem(
+          _notesLength + 1,
+          duration: Duration(milliseconds: 1200),
+        );
+      }
     }
 
     return FloatingActionButton(

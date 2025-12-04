@@ -21,7 +21,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      theme: MindBoxTheme.lightTheme,
+      theme: MindBoxTheme.theme,
       home: const HomeScreen(),
       navigatorObservers: [routeObserver],
     );

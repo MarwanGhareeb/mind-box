@@ -1,8 +1,6 @@
-import 'package:awesome_dialog/awesome_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_todo_app_mind_box/core/params/note_params.dart';
-import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/save_button.dart';
@@ -96,11 +94,8 @@ class _NoteFormScreenState extends State<NoteFormScreen>
       Text('Pick a Color', style: Theme.of(context).textTheme.titleMedium),
       SizedBox(height: 10),
       ColorSelector(
-        colors: MindBoxTheme.noteColors,
-        initialColor: Color(widget.initialNote?.color ?? 0x00000000),
-        onColorSelected: (selectedColor) {
-          backgroundNoteColor = selectedColor;
-        },
+        initialColor: backgroundNoteColor,
+        onColorChanged: (value) => backgroundNoteColor = value,
       ),
       SizedBox(height: 50),
       SaveButton(
@@ -112,22 +107,6 @@ class _NoteFormScreenState extends State<NoteFormScreen>
 
   void _onSave() {
     if (_formKey.currentState!.validate()) {
-      if (backgroundNoteColor == Colors.transparent) {
-        AwesomeDialog(
-          context: context,
-          dialogType: DialogType.info,
-          animType: AnimType.scale,
-          headerAnimationLoop: false,
-          title: '\nColor Required',
-          dialogBackgroundColor: Colors.blueGrey,
-          btnOkText: 'Ok',
-          buttonsTextStyle:
-              TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
-          btnOkOnPress: () {},
-        ).show();
-        return;
-      }
-
       final noteParams = NoteParams(
         id: widget.initialNote?.id,
         title: titleController.text,

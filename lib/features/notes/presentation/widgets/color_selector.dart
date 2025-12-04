@@ -1,16 +1,14 @@
 import 'package:flutter/material.dart';
-import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/color_widget.dart';
+import 'package:flutter_colorpicker/flutter_colorpicker.dart';
 
 class ColorSelector extends StatefulWidget {
-  final List<Color> colors;
   final Color initialColor;
-  final void Function(Color selectedColor)? onColorSelected;
+  final ValueChanged<Color> onColorChanged;
 
   const ColorSelector({
     super.key,
-    required this.colors,
     required this.initialColor,
-    this.onColorSelected,
+    required this.onColorChanged,
   });
 
   @override
@@ -18,41 +16,32 @@ class ColorSelector extends StatefulWidget {
 }
 
 class _ColorSelectorState extends State<ColorSelector> {
-  late final ValueNotifier<Color> selectedColorNotifier;
+  late Color pickerColor;
 
   @override
   void initState() {
-    selectedColorNotifier = ValueNotifier<Color>(widget.initialColor);
-
     super.initState();
-  }
-
-  @override
-  void dispose() {
-    selectedColorNotifier.dispose();
-    super.dispose();
+    pickerColor = widget.initialColor;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      spacing: 10,
-      children: widget.colors.map(
-        (color) {
-          void onColorTapped() {
-            selectedColorNotifier.value == color
-                ? selectedColorNotifier.value = Color(0x00000000)
-                : selectedColorNotifier.value = color;
-            widget.onColorSelected?.call(selectedColorNotifier.value);
-          }
-
-          return ColorWidget(
-            color: color,
-            selectedColorNotifier: selectedColorNotifier,
-            onTap: onColorTapped,
-          );
+    return Padding(
+      padding: const EdgeInsets.all(20),
+      child: ColorPicker(
+        pickerColor: pickerColor,
+        onColorChanged: (Color value) {
+          setState(() {
+            pickerColor = value;
+            widget.onColorChanged.call(pickerColor);
+          });
         },
-      ).toList(),
+        pickerAreaHeightPercent: 0.8,
+        displayThumbColor: true,
+        paletteType: PaletteType.hsv,
+        enableAlpha: true,
+        colorPickerWidth: 250,
+      ),
     );
   }
 }

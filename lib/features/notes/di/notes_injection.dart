@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get_it/get_it.dart';
 import 'package:note_todo_app_mind_box/features/notes/data/repositories/notes_repo_impl.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/use_cases/add_note_use_case.dart';
@@ -19,5 +20,9 @@ Future<void> initNotesFeature(GetIt getIt) async {
       getIt<UpdateNoteUseCase>(),
       getIt<DeleteNoteUseCase>(),
     ),
+  );
+
+  getIt.registerLazySingleton(
+    () => GlobalKey<AnimatedListState>(),
   );
 }

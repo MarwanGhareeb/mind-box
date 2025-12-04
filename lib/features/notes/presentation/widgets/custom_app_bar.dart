@@ -57,7 +57,7 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: MindBoxTheme.orange,
+        // color: MindBoxTheme.orange,
         borderRadius: BorderRadius.circular(13),
       ),
       child: Icon(

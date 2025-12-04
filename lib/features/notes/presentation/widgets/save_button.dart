@@ -13,7 +13,7 @@ class SaveButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        backgroundColor: MindBoxTheme.lightTheme.colorScheme.primary,
+        backgroundColor: MindBoxTheme.theme.colorScheme.primary,
         foregroundColor: Colors.white,
         shadowColor: Colors.black,
         elevation: 6,

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_todo_app_mind_box/core/params/note_params.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/save_button.dart';
@@ -41,7 +42,7 @@ class _NoteFormScreenState extends State<NoteFormScreen>
     } else {
       titleController = TextEditingController();
       contentController = TextEditingController();
-      backgroundNoteColor = Colors.transparent;
+      backgroundNoteColor = AppColors.transparent;
     }
 
     super.initState();
@@ -57,7 +58,7 @@ class _NoteFormScreenState extends State<NoteFormScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white.withValues(alpha: 0.05),
+      backgroundColor: AppColors.glass05,
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: CustomAppBar(title: widget.title),
@@ -75,7 +76,7 @@ class _NoteFormScreenState extends State<NoteFormScreen>
 
   List<Widget> _itemsForAddScreen() {
     return [
-      Text('Title', style: Theme.of(context).textTheme.titleMedium),
+      Text('Title', style: Theme.of(context).textTheme.titleLarge),
       SizedBox(height: 10),
       CustomTextField(
         hintText: 'Write your title here...',
@@ -83,7 +84,7 @@ class _NoteFormScreenState extends State<NoteFormScreen>
         keyboardType: TextInputType.text,
       ),
       SizedBox(height: 30),
-      Text('Note', style: Theme.of(context).textTheme.titleMedium),
+      Text('Note', style: Theme.of(context).textTheme.titleLarge),
       SizedBox(height: 10),
       CustomTextField(
         hintText: 'Write your content here...',
@@ -91,7 +92,7 @@ class _NoteFormScreenState extends State<NoteFormScreen>
         keyboardType: TextInputType.multiline,
       ),
       SizedBox(height: 40),
-      Text('Pick a Color', style: Theme.of(context).textTheme.titleMedium),
+      Text('Pick a Color', style: Theme.of(context).textTheme.titleLarge),
       SizedBox(height: 10),
       ColorSelector(
         initialColor: backgroundNoteColor,
@@ -101,7 +102,7 @@ class _NoteFormScreenState extends State<NoteFormScreen>
       SaveButton(
         onSave: _onSave,
       ),
-      SizedBox(height: 100),
+      SizedBox(height: 200),
     ];
   }
 

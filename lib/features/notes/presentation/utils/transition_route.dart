@@ -1,11 +1,12 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
 
 Route createTransparentRoute(Widget screen) {
   return PageRouteBuilder(
     opaque: false,
     barrierDismissible: true,
-    barrierColor: Colors.black.withValues(alpha: 0.3),
+    barrierColor: AppColors.overlayLight,
     transitionDuration: const Duration(seconds: 1),
     reverseTransitionDuration: const Duration(milliseconds: 800),
     pageBuilder: (context, animation, secondaryAnimation) => screen,
@@ -28,7 +29,7 @@ Route createTransparentRoute(Widget screen) {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
             child: Container(
-              color: Colors.black.withValues(alpha: 0.4),
+              color: AppColors.overlayMedium,
               child: child,
             ),
           ),

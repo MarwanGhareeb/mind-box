@@ -24,9 +24,9 @@ dependencies:
   shared_preferences:
   sqflite:
   awesome_dialog:
-  visibility_detector: ^0.4.0+2
+  visibility_detector:
   animated_text_kit2:
-  flutter_colorpicker: ^1.1.0
+  flutter_colorpicker:
 
 dev_dependencies:
   flutter_lints: ^6.0.0
@@ -39,3 +39,48 @@ flutter:
 
   assets:
     - assets/images/
+  
+  fonts:
+    - family: "PlayfairDisplay"
+      fonts:
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-Regular.ttf"
+          weight: 400
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-Italic.ttf"
+          weight: 400
+          style: italic
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-Medium.ttf"
+          weight: 500
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-MediumItalic.ttf"
+          weight: 500
+          style: italic
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-SemiBold.ttf"
+          weight: 600
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-SemiBoldItalic.ttf"
+          weight: 600
+          style: italic
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-Bold.ttf"
+          weight: 700
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-BoldItalic.ttf"
+          weight: 700
+          style: italic
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-ExtraBold.ttf"
+          weight: 800
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-ExtraBoldItalic.ttf"
+          weight: 800
+          style: italic
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-Black.ttf"
+          weight: 900
+        
+        - asset: "assets/fonts/playfair_display/PlayfairDisplay-BlackItalic.ttf"
+          weight: 900
+          style: italic

@@ -1,6 +1,9 @@
 import 'dart:async';
 import 'package:animated_text_kit2/animated_text_kit2.dart';
 import 'package:flutter/material.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_shadows.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_theme.dart';
 import 'package:note_todo_app_mind_box/main.dart';
 
 class MindBoxWidget extends StatefulWidget {
@@ -95,10 +98,10 @@ class _MindBoxWidgetState extends State<MindBoxWidget>
       margin: EdgeInsets.all(20),
       height: 100,
       decoration: BoxDecoration(
-        color: Colors.white.withValues(alpha: 0.25),
+        color: AppColors.glass25,
         borderRadius: BorderRadius.circular(25),
         border: Border.all(
-          color: Colors.white.withValues(alpha: 0.3),
+          color: AppColors.borderMedium,
         ),
       ),
       child: child,
@@ -109,21 +112,8 @@ class _MindBoxWidgetState extends State<MindBoxWidget>
     BoxDecoration decorationOfBrainContainer() {
       return BoxDecoration(
         borderRadius: BorderRadius.circular(21),
-        gradient: LinearGradient(
-          colors: [
-            Color(0xFFB24592),
-            Color.fromARGB(255, 219, 125, 142),
-          ],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
-            blurRadius: 15,
-            offset: Offset(0, 6),
-          ),
-        ],
+        gradient: AppTheme.brainGradient,
+        boxShadow: AppShadows.brainIcon,
       );
     }
 
@@ -137,7 +127,7 @@ class _MindBoxWidgetState extends State<MindBoxWidget>
             'assets/images/brain.png',
             width: 30,
             height: 30,
-            color: Colors.white,
+            color: AppColors.textPrimary,
           ),
         ),
       );

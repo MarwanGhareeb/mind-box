@@ -1,7 +1,8 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_shadows.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/screens/edit_note_screen.dart';
@@ -89,7 +90,7 @@ class _NoteCardState extends State<NoteCard>
                     SizedBox(height: 10),
                     Text(
                       widget.note.content,
-                      style: theme.textTheme.bodyLarge,
+                      style: theme.textTheme.bodyMedium,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
                     ),
@@ -133,19 +134,13 @@ class _NoteCardState extends State<NoteCard>
       width: 55,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(18),
-        border: Border.all(color: Colors.white, width: 1),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.25),
-            blurRadius: 15,
-            offset: Offset(0, 6),
-          ),
-        ],
+        border: Border.all(color: AppColors.borderSolid, width: 1),
+        boxShadow: AppShadows.editButton,
       ),
       child: FloatingActionButton(
         heroTag: "edit_${widget.note.id}",
         onPressed: onPressed,
-        backgroundColor: Colors.white.withValues(alpha: 0.5),
+        backgroundColor: AppColors.glass50,
         child: Icon(
           Icons.edit_outlined,
           size: 30,
@@ -162,10 +157,10 @@ class _NoteCardState extends State<NoteCard>
               (_) => widget.onDelete(),
             );
       },
-      backgroundColor: MindBoxTheme.deleteBackground,
+      backgroundColor: AppColors.deleteBackground,
       child: Icon(
         CupertinoIcons.trash,
-        color: MindBoxTheme.deleteIconColor,
+        color: AppColors.deleteIcon,
         size: 27,
       ),
     );

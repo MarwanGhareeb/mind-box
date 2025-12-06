@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_text_styles.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hintText;
@@ -44,8 +46,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
       keyboardType: widget.keyboardType,
       minLines: widget.keyboardType == TextInputType.multiline ? 5 : null,
       maxLines: widget.keyboardType == TextInputType.multiline ? null : 1,
-      cursorColor: Colors.white,
-      style: TextStyle(color: Colors.white, fontSize: 17),
+      cursorColor: AppColors.textPrimary,
+      style: Theme.of(context).textTheme.bodyLarge,
       decoration: _decoration(),
       validator: _validator,
     );
@@ -53,17 +55,15 @@ class _CustomTextFieldState extends State<CustomTextField> {
 
   InputDecoration _decoration() {
     return InputDecoration(
-      errorStyle: TextStyle(fontSize: 16),
+      errorStyle: AppTextStyles.error,
       hintText: widget.hintText,
-      hintStyle: TextStyle(color: Colors.white.withValues(alpha: 0.5)),
+      hintStyle: AppTextStyles.hint,
       border: OutlineInputBorder(
         borderSide: BorderSide.none,
         borderRadius: BorderRadius.circular(13),
       ),
       filled: true,
-      fillColor: _isFocused
-          ? Colors.white.withValues(alpha: 0.4)
-          : Colors.white.withValues(alpha: 0.2),
+      fillColor: _isFocused ? AppColors.glass40 : AppColors.glass20,
     );
   }
 

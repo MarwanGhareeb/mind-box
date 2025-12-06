@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:note_todo_app_mind_box/app/home_screen.dart';
 import 'package:note_todo_app_mind_box/core/cache/cache_helper.dart';
 import 'package:note_todo_app_mind_box/core/di/injection_container.dart';
-import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
+import 'package:note_todo_app_mind_box/core/themes/mind_box_theme.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();

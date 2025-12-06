@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
 
 class SaveButton extends StatelessWidget {
   final void Function() onSave;
@@ -13,19 +13,15 @@ class SaveButton extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16),
         ),
-        backgroundColor: MindBoxTheme.theme.colorScheme.primary,
-        foregroundColor: Colors.white,
-        shadowColor: Colors.black,
+        backgroundColor: AppColors.fabNote,
+        foregroundColor: AppColors.textPrimary,
+        shadowColor: AppColors.shadowSoft,
         elevation: 6,
       ),
       onPressed: onSave,
-      child: const Text(
+      child: Text(
         "Save",
-        style: TextStyle(
-          fontSize: 16,
-          fontWeight: FontWeight.bold,
-          letterSpacing: 0.5,
-        ),
+        style: Theme.of(context).textTheme.titleLarge,
       ),
     );
   }

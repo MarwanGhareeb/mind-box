@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:note_todo_app_mind_box/core/utils/app_themes.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_theme.dart';
 
 class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   final String title;
@@ -12,18 +13,20 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      backgroundColor: Colors.white.withValues(alpha: 0.4),
+      backgroundColor: AppColors.glass40,
       elevation: 0,
       leading: _starIcon(),
-      title: Text(title),
+      title: Text(
+        title,
+        style: Theme.of(context).textTheme.headlineLarge,
+      ),
       centerTitle: false,
-      titleTextStyle: Theme.of(context).textTheme.titleLarge,
       automaticallyImplyLeading: false,
       flexibleSpace: ClipRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
           child: Container(
-            color: Colors.black.withValues(alpha: 0.1),
+            color: AppColors.overlayLight,
           ),
         ),
       ),
@@ -34,12 +37,12 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
           width: 35,
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: Colors.white, width: 0.15),
+            border: Border.all(color: AppColors.borderLight, width: 0.15),
           ),
           child: FloatingActionButton.small(
             heroTag: "appBar",
             onPressed: () => Navigator.pop<bool>(context, false),
-            backgroundColor: Colors.white.withValues(alpha: 0.05),
+            backgroundColor: AppColors.glass05,
             child: Icon(
               Icons.close,
               size: 20,
@@ -57,13 +60,13 @@ class CustomAppBar extends StatelessWidget implements PreferredSizeWidget {
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        // color: MindBoxTheme.orange,
+        gradient: AppTheme.backgroundGradient,
         borderRadius: BorderRadius.circular(13),
       ),
       child: Icon(
         Icons.star_border_outlined,
         size: 28,
-        color: Colors.white,
+        color: AppColors.textPrimary,
       ),
     );
   }

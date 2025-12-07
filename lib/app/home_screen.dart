@@ -26,6 +26,8 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: _pages[_indexSelector],
       bottomNavigationBar: BottomNavigationBar(
+        selectedLabelStyle: Theme.of(context).textTheme.labelMedium,
+        unselectedLabelStyle: Theme.of(context).textTheme.labelMedium,
         items: <BottomNavigationBarItem>[
           BottomNavigationBarItem(
             icon: Icon(

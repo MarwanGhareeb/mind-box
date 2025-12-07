@@ -6,7 +6,7 @@ Route createTransparentRoute(Widget screen) {
   return PageRouteBuilder(
     opaque: false,
     barrierDismissible: true,
-    barrierColor: AppColors.overlayLight,
+    barrierColor: AppColors.blackWithAlpha(0.3),
     transitionDuration: const Duration(seconds: 1),
     reverseTransitionDuration: const Duration(milliseconds: 800),
     pageBuilder: (context, animation, secondaryAnimation) => screen,
@@ -29,7 +29,7 @@ Route createTransparentRoute(Widget screen) {
           child: BackdropFilter(
             filter: ImageFilter.blur(sigmaX: 8, sigmaY: 8),
             child: Container(
-              color: AppColors.overlayMedium,
+              color: AppColors.blackWithAlpha(0.4),
               child: child,
             ),
           ),

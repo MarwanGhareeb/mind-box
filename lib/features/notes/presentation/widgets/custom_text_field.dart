@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
-import 'package:note_todo_app_mind_box/core/themes/app_text_styles.dart';
 
 class CustomTextField extends StatefulWidget {
   final String hintText;
@@ -43,27 +42,25 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return TextFormField(
       controller: widget.controller,
       focusNode: _focusNode,
+      style: Theme.of(context).textTheme.bodyMedium!.copyWith(
+            color: _isFocused ? AppColors.textOnLight : AppColors.textOnDark,
+          ),
       keyboardType: widget.keyboardType,
       minLines: widget.keyboardType == TextInputType.multiline ? 5 : null,
       maxLines: widget.keyboardType == TextInputType.multiline ? null : 1,
-      cursorColor: AppColors.textPrimary,
-      style: Theme.of(context).textTheme.bodyLarge,
       decoration: _decoration(),
       validator: _validator,
+      cursorColor: AppColors.overlayDark,
+      cursorErrorColor: AppColors.overlayDark,
     );
   }
 
   InputDecoration _decoration() {
     return InputDecoration(
-      errorStyle: AppTextStyles.error,
       hintText: widget.hintText,
-      hintStyle: AppTextStyles.hint,
-      border: OutlineInputBorder(
-        borderSide: BorderSide.none,
-        borderRadius: BorderRadius.circular(13),
-      ),
-      filled: true,
-      fillColor: _isFocused ? AppColors.glass40 : AppColors.glass20,
+      fillColor: _isFocused
+          ? AppColors.whiteWithAlpha(0.4)
+          : AppColors.whiteWithAlpha(0.2),
     );
   }
 

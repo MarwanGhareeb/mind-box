@@ -36,11 +36,13 @@ class _ColorSelectorState extends State<ColorSelector> {
             widget.onColorChanged.call(pickerColor);
           });
         },
-        pickerAreaHeightPercent: 0.8,
+        pickerAreaHeightPercent: 0.4,
         displayThumbColor: true,
         paletteType: PaletteType.hsv,
         enableAlpha: true,
-        colorPickerWidth: 250,
+        colorPickerWidth: 300,
+        labelTypes: [],
+        pickerAreaBorderRadius: BorderRadius.circular(20),
       ),
     );
   }

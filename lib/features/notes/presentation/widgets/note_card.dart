@@ -6,17 +6,16 @@ import 'package:note_todo_app_mind_box/core/themes/app_shadows.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/screens/edit_note_screen.dart';
+import 'package:note_todo_app_mind_box/features/notes/presentation/screens/note_details_screen.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/utils/transition_route.dart';
 
 class NoteCard extends StatefulWidget {
   final NoteEntity note;
-  final bool isAnimated;
   final VoidCallback onDelete;
 
   const NoteCard({
     super.key,
     required this.note,
-    required this.isAnimated,
     required this.onDelete,
   });
 
@@ -30,26 +29,34 @@ class _NoteCardState extends State<NoteCard>
   late final Animation<Offset> _animationOffset;
   late final Animation<double> _animationScale;
 
+  late Color foregroundColor;
+
   @override
   void initState() {
+    foregroundColor = Color(widget.note.color).computeLuminance() > 0.5
+        ? AppColors.textOnLight
+        : AppColors.textOnDark;
     _animationController = AnimationController(
-      duration: const Duration(milliseconds: 1200),
-      reverseDuration: const Duration(milliseconds: 800),
+      duration: const Duration(milliseconds: 800),
       vsync: this,
     );
-    _animationOffset = Tween<Offset>(begin: Offset(-1, 0), end: Offset(0, 0))
+    _animationOffset = Tween<Offset>(begin: Offset(0, 0), end: Offset(-1, 0))
         .animate(CurvedAnimation(
             parent: _animationController, curve: Curves.easeInOutBack));
     _animationScale =
-        Tween<double>(begin: -0.7, end: 1).animate(_animationController);
-
-    if (!widget.isAnimated) {
-      _animationController.forward();
-    } else {
-      _animationController.value = 1;
-    }
+        Tween<double>(begin: 1, end: -0.7).animate(_animationController);
 
     super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant NoteCard oldWidget) {
+    if (widget != oldWidget) {
+      foregroundColor = Color(widget.note.color).computeLuminance() > 0.5
+          ? AppColors.textOnLight
+          : AppColors.textOnDark;
+    }
+    super.didUpdateWidget(oldWidget);
   }
 
   @override
@@ -60,10 +67,13 @@ class _NoteCardState extends State<NoteCard>
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return InkWell(
-      onTap: () {},
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NoteDetailsScreen(note: widget.note),
+        ),
+      ),
       child: SizeTransition(
         sizeFactor: _animationScale,
         child: SlideTransition(
@@ -83,16 +93,22 @@ class _NoteCardState extends State<NoteCard>
                   children: [
                     Text(
                       widget.note.title,
-                      style: theme.textTheme.titleLarge,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .titleLarge!
+                          .copyWith(color: foregroundColor),
                     ),
                     SizedBox(height: 10),
                     Text(
                       widget.note.content,
-                      style: theme.textTheme.bodyMedium,
-                      maxLines: 2,
+                      maxLines: 3,
                       overflow: TextOverflow.ellipsis,
+                      style: Theme.of(context)
+                          .textTheme
+                          .bodyMedium!
+                          .copyWith(color: foregroundColor),
                     ),
                     SizedBox(height: 20),
                     Row(
@@ -130,38 +146,47 @@ class _NoteCardState extends State<NoteCard>
 
     return Container(
       alignment: Alignment.center,
-      height: 55,
-      width: 55,
+      height: 50,
+      width: 50,
       decoration: BoxDecoration(
+        color: AppColors.whiteWithAlpha(0.5),
         borderRadius: BorderRadius.circular(18),
         border: Border.all(color: AppColors.borderSolid, width: 1),
-        boxShadow: AppShadows.editButton,
+        boxShadow: AppShadows.buttonStrong,
       ),
-      child: FloatingActionButton(
-        heroTag: "edit_${widget.note.id}",
+      child: IconButton(
         onPressed: onPressed,
-        backgroundColor: AppColors.glass50,
-        child: Icon(
+        icon: Icon(
           Icons.edit_outlined,
-          size: 30,
+          color: foregroundColor,
+          size: 27,
         ),
       ),
     );
   }
 
-  FloatingActionButton _deleteButton(BuildContext context) {
-    return FloatingActionButton(
-      heroTag: "delete_${widget.note.id}",
-      onPressed: () {
-        _animationController.reverse().then(
-              (_) => widget.onDelete(),
-            );
-      },
-      backgroundColor: AppColors.deleteBackground,
-      child: Icon(
-        CupertinoIcons.trash,
+  Container _deleteButton(BuildContext context) {
+    void onPressed() {
+      _animationController.forward().then(
+            (_) => widget.onDelete(),
+          );
+    }
+
+    return Container(
+      alignment: Alignment.center,
+      height: 50,
+      width: 50,
+      decoration: BoxDecoration(
         color: AppColors.deleteIcon,
-        size: 27,
+        borderRadius: BorderRadius.circular(16),
+      ),
+      child: IconButton(
+        onPressed: onPressed,
+        icon: Icon(
+          CupertinoIcons.delete,
+          color: AppColors.white,
+          size: 27,
+        ),
       ),
     );
   }

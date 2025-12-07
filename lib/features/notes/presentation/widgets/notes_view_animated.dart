@@ -1,7 +1,6 @@
 import 'package:animated_text_kit2/animated_text_kit2.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
 import 'package:note_todo_app_mind_box/core/widgets/mind_box_widget.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
@@ -14,7 +13,6 @@ class NotesViewAnimated extends StatefulWidget {
 }
 
 class _NotesViewAnimatedState extends State<NotesViewAnimated> {
-  final Set<int> _notesWasAnimated = {};
   @override
   Widget build(BuildContext context) {
     return BlocSelector<NotesBloc, NotesState, List<NoteEntity>>(
@@ -40,11 +38,8 @@ class _NotesViewAnimatedState extends State<NotesViewAnimated> {
                     RepaintBoundary(
                       child: AnimatedTextKit2.Wave(
                         text: "Start Creating",
+                        textStyle: Theme.of(context).textTheme.displayMedium,
                         repeat: true,
-                        textStyle: Theme.of(context)
-                            .textTheme
-                            .displayLarge!
-                            .copyWith(color: AppColors.textPrimary),
                         amplitude: 2,
                       ),
                     ),
@@ -52,12 +47,9 @@ class _NotesViewAnimatedState extends State<NotesViewAnimated> {
                 );
               } else {
                 final NoteEntity note = notes[i - 1];
-                final bool isAnimated = _notesWasAnimated.contains(note.id);
-                _notesWasAnimated.add(note.id);
                 return NoteCard(
                   key: ValueKey(note.id),
                   note: note,
-                  isAnimated: isAnimated,
                   onDelete: () => _onDelete(context, note: note),
                 );
               }
@@ -70,6 +62,5 @@ class _NotesViewAnimatedState extends State<NotesViewAnimated> {
 
   void _onDelete(BuildContext context, {required NoteEntity note}) {
     context.read<NotesBloc>().add(DeleteNoteEvent(id: note.id));
-    _notesWasAnimated.remove(note.id);
   }
 }

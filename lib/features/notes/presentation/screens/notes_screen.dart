@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
-import 'package:note_todo_app_mind_box/core/themes/app_theme.dart';
+import 'package:note_todo_app_mind_box/core/themes/app_gradients.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/screens/add_note_screen.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/utils/transition_route.dart';
@@ -20,7 +20,7 @@ class _NotesScreenState extends State<NotesScreen> {
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
-          gradient: AppTheme.backgroundGradient,
+          gradient: AppGradients.scaffoldBackgroundGradient,
         ),
         child: BlocBuilder<NotesBloc, NotesState>(
           builder: (context, state) {
@@ -32,7 +32,6 @@ class _NotesScreenState extends State<NotesScreen> {
               return Center(
                 child: Text(
                   state.message,
-                  style: Theme.of(context).textTheme.bodyLarge,
                   textAlign: TextAlign.center,
                 ),
               );
@@ -41,7 +40,6 @@ class _NotesScreenState extends State<NotesScreen> {
             }
             return Container(
               margin: EdgeInsets.all(30),
-              color: AppColors.surfaceMedium,
             );
           },
         ),
@@ -67,11 +65,10 @@ class _NotesScreenState extends State<NotesScreen> {
 
     return FloatingActionButton(
       onPressed: onPressed,
-      shape: CircleBorder(),
       backgroundColor: AppColors.fabNote,
       child: Icon(
         Icons.add,
-        size: 30,
+        size: 27,
       ),
     );
   }

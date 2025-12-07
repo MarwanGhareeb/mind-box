@@ -6,9 +6,9 @@ class AppColors {
   // ==================== Primary Background Gradients ====================
 
   /// Main background gradient - Deep purple to indigo (calm and modern)
-  static const backgroundGradientStart = Color(0xFF1A1B3D); // Deep navy blue
-  static const backgroundGradientMiddle = Color(0xFF2D1B4E); // Rich purple
-  static const backgroundGradientEnd = Color(0xFF1A0F2E); // Deep purple-black
+  static const backgroundGradientStart = Color(0xFF1E1130); // Deep navy blue
+  static const backgroundGradientMiddle = Color(0xFF7449C3); // Rich purple
+  static const backgroundGradientEnd = Color(0xFF611580); // Deep purple-black
 
   /// Brain/Logo gradient - Soft pink to purple (vibrant but not harsh)
   static const brainGradientStart = Color(0xFFE879F9); // Soft pink-purple
@@ -30,8 +30,7 @@ class AppColors {
   // ==================== FAB (Floating Action Button) Colors ====================
 
   /// FAB for Notes - Warm amber/orange (inviting and friendly)
-  static const fabNote = Color(0xFFF59E0B); // Amber
-  static const fabNoteHover = Color(0xFFD97706); // Darker amber
+  static const fabNote = Color(0xFFFBBF24); // Amber
 
   /// FAB for Tasks - Cool blue (professional and clear)
   static const fabTask = Color(0xFF3B82F6); // Blue

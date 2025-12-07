@@ -1,263 +1,245 @@
 import 'package:flutter/material.dart';
-import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
+import 'app_colors.dart';
 
 class AppShadows {
   const AppShadows._();
 
   // ==================== Card Shadows ====================
 
-  /// Soft shadow for note cards - subtle elevation
-  static const cardSoft = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 8,
-      offset: Offset(0, 2),
-      spreadRadius: 0,
-    ),
-  ];
+  /// Soft shadow for cards - subtle elevation
+  static List<BoxShadow> get cardSoft => [
+        BoxShadow(
+          color: AppColors.shadowSoft,
+          blurRadius: 8,
+          offset: const Offset(0, 2),
+          spreadRadius: 0,
+        ),
+      ];
 
-  /// Medium shadow for note cards - standard elevation
-  static const cardMedium = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 15,
-      offset: Offset(0, 6),
-      spreadRadius: 0,
-    ),
-  ];
+  /// Medium shadow for cards - standard elevation
+  static List<BoxShadow> get cardMedium => [
+        BoxShadow(
+          color: AppColors.shadowMedium,
+          blurRadius: 12,
+          offset: const Offset(0, 4),
+          spreadRadius: 0,
+        ),
+      ];
 
-  /// Strong shadow for note cards - high elevation
-  static const cardStrong = [
-    BoxShadow(
-      color: AppColors.shadowMedium,
-      blurRadius: 20,
-      offset: Offset(0, 8),
-      spreadRadius: 0,
-    ),
-  ];
+  /// Strong shadow for cards - high elevation
+  static List<BoxShadow> get cardStrong => [
+        BoxShadow(
+          color: AppColors.shadowStrong,
+          blurRadius: 16,
+          offset: const Offset(0, 6),
+          spreadRadius: 0,
+        ),
+      ];
 
   // ==================== Button Shadows ====================
 
-  /// Soft shadow for buttons - subtle elevation
-  static const buttonSoft = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 6,
-      offset: Offset(0, 2),
-      spreadRadius: 0,
-    ),
-  ];
+  /// Soft shadow for buttons - subtle depth
+  static List<BoxShadow> get buttonSoft => [
+        BoxShadow(
+          color: AppColors.shadowSoft,
+          blurRadius: 6,
+          offset: const Offset(0, 2),
+          spreadRadius: 0,
+        ),
+      ];
 
-  /// Medium shadow for buttons - standard elevation (SaveButton, FAB)
-  static const buttonMedium = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 12,
-      offset: Offset(0, 4),
-      spreadRadius: 0,
-    ),
-  ];
+  /// Medium shadow for buttons - standard depth
+  static List<BoxShadow> get buttonMedium => [
+        BoxShadow(
+          color: AppColors.shadowMedium,
+          blurRadius: 10,
+          offset: const Offset(0, 4),
+          spreadRadius: 0,
+        ),
+      ];
 
-  /// Strong shadow for buttons - high elevation
-  static const buttonStrong = [
-    BoxShadow(
-      color: AppColors.shadowMedium,
-      blurRadius: 18,
-      offset: Offset(0, 6),
-      spreadRadius: 0,
-    ),
-  ];
-
-  /// Edit button shadow - used in NoteCard edit button
-  static const editButton = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 15,
-      offset: Offset(0, 6),
-      spreadRadius: 0,
-    ),
-  ];
-
-  // ==================== Icon/Logo Shadows ====================
-
-  /// Brain icon shadow - used in MindBoxWidget
-  static const brainIcon = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 15,
-      offset: Offset(0, 6),
-      spreadRadius: 0,
-    ),
-  ];
-
-  /// Icon shadow - for decorative icons
-  static const iconSoft = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 8,
-      offset: Offset(0, 3),
-      spreadRadius: 0,
-    ),
-  ];
-
-  /// Icon shadow - for important icons
-  static const iconMedium = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 12,
-      offset: Offset(0, 4),
-      spreadRadius: 0,
-    ),
-  ];
-
-  // ==================== Container Shadows ====================
-
-  /// MindBox container shadow - used in MindBoxWidget main container
-  static const containerSoft = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 10,
-      offset: Offset(0, 4),
-      spreadRadius: 0,
-    ),
-  ];
-
-  /// Container shadow - for glass morphism containers
-  static const containerMedium = [
-    BoxShadow(
-      color: AppColors.shadowMedium,
-      blurRadius: 16,
-      offset: Offset(0, 6),
-      spreadRadius: 0,
-    ),
-  ];
-
-  /// Container shadow - for prominent containers
-  static const containerStrong = [
-    BoxShadow(
-      color: AppColors.shadowStrong,
-      blurRadius: 24,
-      offset: Offset(0, 8),
-      spreadRadius: 0,
-    ),
-  ];
-
-  // ==================== AppBar Shadows ====================
-
-  /// AppBar shadow - subtle elevation for glass morphism
-  static const appBar = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 4,
-      offset: Offset(0, 2),
-      spreadRadius: 0,
-    ),
-  ];
+  /// Strong shadow for buttons - pressed/elevated state
+  static List<BoxShadow> get buttonStrong => [
+        BoxShadow(
+          color: AppColors.shadowStrong,
+          blurRadius: 15,
+          offset: const Offset(0, 6),
+          spreadRadius: 5,
+        ),
+      ];
 
   // ==================== FAB Shadows ====================
 
-  /// FAB shadow - for floating action buttons
-  static const fab = [
-    BoxShadow(
-      color: AppColors.shadowMedium,
-      blurRadius: 12,
-      offset: Offset(0, 4),
-      spreadRadius: 2,
-    ),
-  ];
+  /// Shadow for Floating Action Buttons
+  static List<BoxShadow> get fab => [
+        BoxShadow(
+          color: AppColors.shadowMedium,
+          blurRadius: 12,
+          offset: const Offset(0, 4),
+          spreadRadius: 2,
+        ),
+      ];
 
-  /// FAB shadow - elevated state
-  static const fabElevated = [
-    BoxShadow(
-      color: AppColors.shadowStrong,
-      blurRadius: 20,
-      offset: Offset(0, 8),
-      spreadRadius: 4,
-    ),
-  ];
+  /// Elevated shadow for FAB when pressed
+  static List<BoxShadow> get fabElevated => [
+        BoxShadow(
+          color: AppColors.shadowStrong,
+          blurRadius: 20,
+          offset: const Offset(0, 8),
+          spreadRadius: 4,
+        ),
+      ];
+
+  // ==================== Container Shadows ====================
+
+  /// Soft shadow for containers - minimal elevation
+  static List<BoxShadow> get containerSoft => [
+        BoxShadow(
+          color: AppColors.shadowSoft,
+          blurRadius: 10,
+          offset: const Offset(0, 3),
+          spreadRadius: 0,
+        ),
+      ];
+
+  /// Medium shadow for containers - standard elevation
+  static List<BoxShadow> get containerMedium => [
+        BoxShadow(
+          color: AppColors.shadowMedium,
+          blurRadius: 15,
+          offset: const Offset(0, 6),
+          spreadRadius: 0,
+        ),
+      ];
+
+  /// Strong shadow for containers - high elevation
+  static List<BoxShadow> get containerStrong => [
+        BoxShadow(
+          color: AppColors.shadowStrong,
+          blurRadius: 20,
+          offset: const Offset(0, 8),
+          spreadRadius: 0,
+        ),
+      ];
 
   // ==================== Modal/Dialog Shadows ====================
 
-  /// Modal shadow - for dialogs and bottom sheets
-  static const modal = [
-    BoxShadow(
-      color: AppColors.shadowStrong,
-      blurRadius: 30,
-      offset: Offset(0, 10),
-      spreadRadius: 0,
-    ),
-  ];
+  /// Shadow for modals and dialogs
+  static List<BoxShadow> get modal => [
+        BoxShadow(
+          color: AppColors.shadowStrong,
+          blurRadius: 24,
+          offset: const Offset(0, 12),
+          spreadRadius: 0,
+        ),
+      ];
+
+  /// Shadow for bottom sheets
+  static List<BoxShadow> get bottomSheet => [
+        BoxShadow(
+          color: AppColors.shadowStrong,
+          blurRadius: 20,
+          offset: const Offset(0, -4),
+          spreadRadius: 0,
+        ),
+      ];
 
   // ==================== Text Shadows ====================
 
-  /// Text shadow - for text on complex backgrounds
-  static const textSoft = [
-    Shadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 4,
-      offset: Offset(0, 2),
-    ),
-  ];
+  /// Soft text shadow for readability
+  static Shadow get textSoft => Shadow(
+        color: AppColors.shadowSoft,
+        blurRadius: 4,
+        offset: const Offset(0, 2),
+      );
 
-  /// Text shadow - for prominent text
-  static const textMedium = [
-    Shadow(
-      color: AppColors.shadowMedium,
-      blurRadius: 6,
-      offset: Offset(0, 2),
-    ),
-  ];
+  /// Medium text shadow for better readability
+  static Shadow get textMedium => Shadow(
+        color: AppColors.shadowMedium,
+        blurRadius: 6,
+        offset: const Offset(0, 2),
+      );
+
+  /// Strong text shadow for high contrast
+  static Shadow get textStrong => Shadow(
+        color: AppColors.shadowStrong,
+        blurRadius: 8,
+        offset: const Offset(0, 2),
+      );
 
   // ==================== Inner Shadows ====================
 
-  /// Inner shadow - for inset effects
-  static const inner = [
-    BoxShadow(
-      color: AppColors.shadowSoft,
-      blurRadius: 4,
-      offset: Offset(0, 2),
-      spreadRadius: -2,
-    ),
-  ];
+  /// Inner shadow for inset effects
+  static List<BoxShadow> get inner => [
+        BoxShadow(
+          color: AppColors.shadowSoft,
+          blurRadius: 8,
+          offset: const Offset(0, 2),
+          spreadRadius: -2,
+        ),
+      ];
+
+  // ==================== Glow Effects ====================
+
+  /// Soft glow effect for special elements
+  static List<BoxShadow> get glowSoft => [
+        BoxShadow(
+          color: AppColors.accentPurple.withValues(alpha: 0.3),
+          blurRadius: 12,
+          offset: const Offset(0, 0),
+          spreadRadius: 2,
+        ),
+      ];
+
+  /// Medium glow effect for highlighted elements
+  static List<BoxShadow> get glowMedium => [
+        BoxShadow(
+          color: AppColors.accentBlue.withValues(alpha: 0.4),
+          blurRadius: 16,
+          offset: const Offset(0, 0),
+          spreadRadius: 4,
+        ),
+      ];
+
+  /// Strong glow effect for active elements
+  static List<BoxShadow> get glowStrong => [
+        BoxShadow(
+          color: AppColors.accentPink.withValues(alpha: 0.5),
+          blurRadius: 20,
+          offset: const Offset(0, 0),
+          spreadRadius: 6,
+        ),
+      ];
 
   // ==================== Custom Shadow Builder ====================
 
-  /// Create custom shadow with specified parameters
-  static List<BoxShadow> custom({
+  /// Create a custom shadow with specified parameters
+  static BoxShadow custom({
     required Color color,
     required double blurRadius,
     required Offset offset,
     double spreadRadius = 0,
   }) {
-    return [
-      BoxShadow(
-        color: color,
-        blurRadius: blurRadius,
-        offset: offset,
-        spreadRadius: spreadRadius,
-      ),
-    ];
+    return BoxShadow(
+      color: color,
+      blurRadius: blurRadius,
+      offset: offset,
+      spreadRadius: spreadRadius,
+    );
   }
 
-  /// Create multiple layered shadows for depth
-  static List<BoxShadow> layered({
-    Color? primaryColor,
-    Color? secondaryColor,
-    double blurRadius = 15,
-    Offset offset = const Offset(0, 6),
+  /// Create a list of shadows for elevation effect
+  static List<BoxShadow> elevation({
+    required double elevation,
+    Color? color,
   }) {
+    final shadowColor = color ?? AppColors.shadowMedium;
     return [
       BoxShadow(
-        color: secondaryColor ?? AppColors.shadowSoft,
-        blurRadius: blurRadius * 1.5,
-        offset: offset,
-        spreadRadius: 0,
-      ),
-      BoxShadow(
-        color: primaryColor ?? AppColors.shadowSoft,
-        blurRadius: blurRadius,
-        offset: offset,
-        spreadRadius: 0,
+        color: shadowColor,
+        blurRadius: elevation * 2,
+        offset: Offset(0, elevation),
+        spreadRadius: elevation * 0.1,
       ),
     ];
   }

@@ -1,16 +1,16 @@
 import 'package:dartz/dartz.dart';
 import 'package:note_todo_app_mind_box/core/constants/database_keys.dart';
-import 'package:note_todo_app_mind_box/core/databases/local/database_consumer.dart';
 import 'package:note_todo_app_mind_box/core/errors/exceptions.dart';
 import 'package:note_todo_app_mind_box/core/errors/failures.dart';
+import 'package:note_todo_app_mind_box/features/notes/data/data_sources/notes_local_data_source.dart';
 import 'package:note_todo_app_mind_box/features/notes/data/models/note_model.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entity.dart';
 import 'package:note_todo_app_mind_box/features/notes/domain/repositories/notes_repo.dart';
 
 class NotesRepoImpl implements NotesRepo {
-  final DatabaseConsumer _databaseConsumer;
+  final NotesLocalDataSource _notesLocalDataSource;
 
-  NotesRepoImpl(this._databaseConsumer);
+  NotesRepoImpl(this._notesLocalDataSource);
 
   @override
   Future<Either<Failure, int>> addNote({
@@ -18,7 +18,7 @@ class NotesRepoImpl implements NotesRepo {
   }) async {
     try {
       return Right(
-        await _databaseConsumer.addData(NotesDBKeys.notesTable, data: data),
+        await _notesLocalDataSource.add(NotesDBKeys.notesTable, data: data),
       );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -33,7 +33,7 @@ class NotesRepoImpl implements NotesRepo {
   Future<Either<Failure, int>> deleteNote({required int id}) async {
     try {
       return Right(
-        await _databaseConsumer.deleteData(NotesDBKeys.notesTable, id: id),
+        await _notesLocalDataSource.delete(NotesDBKeys.notesTable, id: id),
       );
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
@@ -45,12 +45,10 @@ class NotesRepoImpl implements NotesRepo {
   }
 
   @override
-  Future<Either<Failure, List<NoteEntity>>> getNotes({String? title}) async {
+  Future<Either<Failure, List<NoteEntity>>> getNotes() async {
     try {
-      final List<Map<String, dynamic>> data = await _databaseConsumer.getData(
-        NotesDBKeys.notesTable,
-        title: title,
-      );
+      final List<Map<String, dynamic>> data =
+          await _notesLocalDataSource.get(NotesDBKeys.notesTable);
       return Right(
         data.map((note) => NoteModel.fromJson(note).toEntity()).toList(),
       );
@@ -70,7 +68,7 @@ class NotesRepoImpl implements NotesRepo {
   }) async {
     try {
       return Right(
-        await _databaseConsumer.updateData(
+        await _notesLocalDataSource.update(
           NotesDBKeys.notesTable,
           data: data,
           id: id,

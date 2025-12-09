@@ -7,14 +7,9 @@ import 'package:note_todo_app_mind_box/features/notes/presentation/screens/add_n
 import 'package:note_todo_app_mind_box/features/notes/presentation/utils/transition_route.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/notes_view_animated.dart';
 
-class NotesScreen extends StatefulWidget {
+class NotesScreen extends StatelessWidget {
   const NotesScreen({super.key});
 
-  @override
-  State<NotesScreen> createState() => _NotesScreenState();
-}
-
-class _NotesScreenState extends State<NotesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,7 +47,7 @@ class _NotesScreenState extends State<NotesScreen> {
     void onPressed() async {
       final bloc = context.read<NotesBloc>();
 
-      await Navigator.push(
+      final bool res = await Navigator.push(
         context,
         createTransparentRoute(
           BlocProvider.value(
@@ -61,6 +56,8 @@ class _NotesScreenState extends State<NotesScreen> {
           ),
         ),
       );
+
+      if (res) bloc.add(ScrollToLastNoteEvent());
     }
 
     return FloatingActionButton(

@@ -3,10 +3,7 @@ part of 'notes_bloc.dart';
 @immutable
 sealed class NotesEvent {}
 
-final class GetNotesEvent extends NotesEvent {
-  final String title;
-  GetNotesEvent({this.title = ''});
-}
+final class GetNotesEvent extends NotesEvent {}
 
 final class AddNoteEvent extends NotesEvent {
   final NoteParams params;
@@ -22,3 +19,5 @@ final class DeleteNoteEvent extends NotesEvent {
   final int id;
   DeleteNoteEvent({required this.id});
 }
+
+final class ScrollToLastNoteEvent extends NotesEvent {}

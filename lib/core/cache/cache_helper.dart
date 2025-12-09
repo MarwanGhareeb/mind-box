@@ -36,7 +36,7 @@ class CacheHelper {
     return await _pref.clear();
   }
 
-  Future<bool> containsKey({required String key}) async {
+  bool containsKey({required String key}) {
     return _pref.containsKey(key);
   }
 }

@@ -15,9 +15,10 @@ class NoteParams {
 
   Map<String, dynamic> toMap() {
     return {
-      NotesDBKeys.notesTitle: title,
-      NotesDBKeys.notesContent: content,
-      NotesDBKeys.notesColor: color,
+      NotesDBKeys.noteId: id,
+      NotesDBKeys.noteTitle: title,
+      NotesDBKeys.noteContent: content,
+      NotesDBKeys.noteColor: color,
     };
   }
 }

@@ -34,7 +34,7 @@ class SqfliteConsumer implements DatabaseConsumer {
     try {
       return await _database!.delete(
         table,
-        where: "${NotesDBKeys.notesId} = ?",
+        where: "${NotesDBKeys.noteId} = ?",
         whereArgs: [id],
       );
     } catch (e) {
@@ -49,7 +49,7 @@ class SqfliteConsumer implements DatabaseConsumer {
       if (title != null) {
         return await _database!.query(
           table,
-          where: "${NotesDBKeys.notesTitle} LIKE ?",
+          where: "${NotesDBKeys.noteTitle} LIKE ?",
           whereArgs: ['%$title%'],
         );
       } else {
@@ -70,7 +70,7 @@ class SqfliteConsumer implements DatabaseConsumer {
       return await _database!.update(
         table,
         data,
-        where: "${NotesDBKeys.notesId} = ?",
+        where: "${NotesDBKeys.noteId} = ?",
         whereArgs: [id],
       );
     } catch (e) {

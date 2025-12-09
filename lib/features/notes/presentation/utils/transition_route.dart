@@ -2,9 +2,9 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
 
-Route createTransparentRoute(Widget screen) {
+Route createTransparentRoute(Widget screen, {bool isOpaque = false}) {
   return PageRouteBuilder(
-    opaque: false,
+    opaque: isOpaque,
     barrierDismissible: true,
     barrierColor: AppColors.blackWithAlpha(0.3),
     transitionDuration: const Duration(seconds: 1),

@@ -27,9 +27,7 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
       (event, emit) async {
         emit(NotesLoading());
 
-        final results = await _getNotesUseCase.call(
-          title: event.title.isEmpty ? null : event.title,
-        );
+        final results = await _getNotesUseCase.call();
 
         results.fold(
           (failure) => emit(NotesError(message: failure.message)),
@@ -114,6 +112,12 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
             },
           );
         }
+      },
+    );
+
+    on<ScrollToLastNoteEvent>(
+      (event, emit) {
+        emit(ScrollToLastNoteState());
       },
     );
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:note_todo_app_mind_box/core/themes/app_colors.dart';
 
 class CustomTextField extends StatefulWidget {
@@ -52,6 +53,11 @@ class _CustomTextFieldState extends State<CustomTextField> {
       validator: _validator,
       cursorColor: AppColors.overlayDark,
       cursorErrorColor: AppColors.overlayDark,
+      inputFormatters: [
+        FilteringTextInputFormatter.deny(
+          RegExp(r'(?!(?:[A-Za-z]))\p{L}', unicode: true),
+        ),
+      ],
     );
   }
 

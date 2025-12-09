@@ -15,19 +15,19 @@ class NoteModel {
   });
 
   factory NoteModel.fromJson(Map<String, dynamic> json) => NoteModel(
-        id: json[NotesDBKeys.notesId],
-        title: json[NotesDBKeys.notesTitle],
-        content: json[NotesDBKeys.notesContent],
-        color: json[NotesDBKeys.notesColor],
+        id: json[NotesDBKeys.noteId],
+        title: json[NotesDBKeys.noteTitle],
+        content: json[NotesDBKeys.noteContent],
+        color: json[NotesDBKeys.noteColor],
       );
 
   NoteEntity toEntity() =>
       NoteEntity(id: id, title: title, content: content, color: color);
 
   Map<String, dynamic> toJson() => {
-        NotesDBKeys.notesId: id,
-        NotesDBKeys.notesTitle: title,
-        NotesDBKeys.notesContent: content,
-        NotesDBKeys.notesColor: color,
+        NotesDBKeys.noteId: id,
+        NotesDBKeys.noteTitle: title,
+        NotesDBKeys.noteContent: content,
+        NotesDBKeys.noteColor: color,
       };
 }

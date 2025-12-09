@@ -23,23 +23,26 @@ class SqfliteDatabaseHelper {
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    await db.execute('''
+    await db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${NotesDBKeys.notesTable} (
-        ${NotesDBKeys.notesId} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${NotesDBKeys.notesTitle} TEXT,
-        ${NotesDBKeys.notesContent} TEXT,
-        ${NotesDBKeys.notesColor} INTEGER
+        ${NotesDBKeys.noteId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${NotesDBKeys.noteTitle} TEXT,
+        ${NotesDBKeys.noteContent} TEXT,
+        ${NotesDBKeys.noteColor} INTEGER
       )
-    ''');
+    ''',
+    );
 
-    await db.execute('''
+    await db.execute(
+      '''
       CREATE TABLE IF NOT EXISTS ${TasksDBKeys.tasksTable} (
-        ${TasksDBKeys.tasksId} INTEGER PRIMARY KEY AUTOINCREMENT,
-        ${TasksDBKeys.tasksTitle} TEXT,
-        ${TasksDBKeys.tasksCompleted} INTEGER DEFAULT 0,
-        ${TasksDBKeys.tasksCreatedAt} TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        ${TasksDBKeys.taskId} INTEGER PRIMARY KEY AUTOINCREMENT,
+        ${TasksDBKeys.taskTitle} TEXT,
+        ${TasksDBKeys.taskCompleted} INTEGER DEFAULT 0,
       )
-    ''');
+    ''',
+    );
   }
 
   Future<void> closeDatabase() async {

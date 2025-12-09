@@ -70,8 +70,9 @@ class _NoteCardState extends State<NoteCard>
     return InkWell(
       onTap: () => Navigator.push(
         context,
-        MaterialPageRoute(
-          builder: (context) => NoteDetailsScreen(note: widget.note),
+        createTransparentRoute(
+          NoteDetailsScreen(note: widget.note),
+          isOpaque: true,
         ),
       ),
       child: SizeTransition(

@@ -12,19 +12,13 @@ dependencies:
   flutter:
     sdk: flutter
   
-  animations:
   cupertino_icons:
   dartz:
   flutter_bloc:
-  flutter_riverpod:
-  flutter_staggered_grid_view:
   get_it:
   path:
-  riverpod:
   shared_preferences:
   sqflite:
-  awesome_dialog:
-  visibility_detector:
   animated_text_kit2:
   flutter_colorpicker:
 

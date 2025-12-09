@@ -54,7 +54,7 @@ class AppTextStyles {
       );
 
   static TextStyle get bodyLarge => TextStyle(
-        fontSize: 18,
+        fontSize: 19,
         fontWeight: FontWeight.w700,
         color: AppColors.textSecondary,
         letterSpacing: 0.5,

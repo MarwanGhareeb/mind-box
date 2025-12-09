@@ -1,0 +1,19 @@
+import 'package:note_todo_app_mind_box/core/databases/local/database_consumer.dart';
+
+class TasksLocalDataSource {
+  TasksLocalDataSource(this._databaseConsumer);
+
+  final DatabaseConsumer _databaseConsumer;
+
+  Future<int> add(String table, {required Map<String, dynamic> data}) async {
+    return await _databaseConsumer.addData(table, data: data);
+  }
+
+  Future<int> delete(String table, {required int id}) async {
+    return await _databaseConsumer.deleteData(table, id: id);
+  }
+
+  Future<List<Map<String, dynamic>>> get(String table) async {
+    return await _databaseConsumer.getData(table);
+  }
+}

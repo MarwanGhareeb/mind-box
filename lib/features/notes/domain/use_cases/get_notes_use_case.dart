@@ -8,7 +8,7 @@ class GetNotesUseCase {
 
   GetNotesUseCase(this._notesRepo);
 
-  Future<Either<Failure, List<NoteEntity>>> call({String? title}) async {
+  Future<Either<Failure, List<NoteEntity>>> call() async {
     return await _notesRepo.getNotes();
   }
 }

@@ -56,18 +56,24 @@ class _NoteFormScreenState extends State<NoteFormScreen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.blackWithAlpha(0.05),
-      appBar: PreferredSize(
-        preferredSize: const Size.fromHeight(kToolbarHeight),
-        child: CustomAppBar(title: widget.title),
-      ),
-      body: Form(
-        key: _formKey,
-        child: ListView(
-          physics: BouncingScrollPhysics(),
-          padding: EdgeInsets.only(left: 20, right: 20, top: 50),
-          children: _itemsForAddScreen(),
+    return GestureDetector(
+      onTap: () {
+        // Dismiss the keyboard when tapping anywhere on the screen
+        FocusManager.instance.primaryFocus?.unfocus();
+      },
+      child: Scaffold(
+        backgroundColor: AppColors.blackWithAlpha(0.05),
+        appBar: PreferredSize(
+          preferredSize: const Size.fromHeight(kToolbarHeight),
+          child: CustomAppBar(title: widget.title),
+        ),
+        body: Form(
+          key: _formKey,
+          child: ListView(
+            physics: BouncingScrollPhysics(),
+            padding: EdgeInsets.only(left: 20, right: 20, top: 50),
+            children: _itemsForAddScreen(),
+          ),
         ),
       ),
     );

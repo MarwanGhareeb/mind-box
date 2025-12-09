@@ -5,8 +5,6 @@ sealed class NotesState {}
 
 final class NotesInitial extends NotesState {}
 
-final class SuccessProcess extends NotesState {}
-
 final class NotesLoading extends NotesState {}
 
 final class NotesLoaded extends NotesState {
@@ -26,3 +24,5 @@ final class NotesError extends NotesState {
   final String message;
   NotesError({required this.message});
 }
+
+final class ScrollToLastNoteState extends NotesState {}

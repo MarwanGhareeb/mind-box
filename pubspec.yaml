@@ -21,6 +21,7 @@ dependencies:
   sqflite:
   animated_text_kit2:
   flutter_colorpicker:
+  msh_checkbox: ^2.0.1
 
 dev_dependencies:
   flutter_lints: ^6.0.0

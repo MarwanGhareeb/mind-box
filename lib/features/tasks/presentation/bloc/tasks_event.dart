@@ -9,6 +9,12 @@ final class AddTasksEvent extends TasksEvent {
   AddTasksEvent({required this.params});
 }
 
+final class UpdateTasksEvent extends TasksEvent {
+  final TaskParams params;
+
+  UpdateTasksEvent({required this.params});
+}
+
 final class DeleteTasksEvent extends TasksEvent {
   final int id;
 

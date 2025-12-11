@@ -1,0 +1,4 @@
+enum Feature {
+  notes,
+  tasks,
+}

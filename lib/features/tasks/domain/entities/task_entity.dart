@@ -1,7 +1,7 @@
 class TaskEntity {
   final int id;
   final String title;
-  final bool isCompleted;
+  final int isCompleted;
 
   TaskEntity({
     required this.id,

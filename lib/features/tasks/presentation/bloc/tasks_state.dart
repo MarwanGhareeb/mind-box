@@ -3,21 +3,21 @@ part of 'tasks_bloc.dart';
 @immutable
 sealed class TasksState {}
 
-final class TasksInitial extends TasksState {}
+final class TasksInitialState extends TasksState {}
 
-final class TasksLoading extends TasksState {}
+final class TasksLoadingState extends TasksState {}
 
-final class TasksLoaded extends TasksState {
+final class TasksLoadedState extends TasksState {
   final List<TaskEntity> tasks;
 
-  TasksLoaded({required this.tasks});
+  TasksLoadedState({required this.tasks});
 
-  TasksLoaded copyWith({required List<TaskEntity>? tasks}) {
-    return TasksLoaded(tasks: tasks ?? this.tasks);
+  TasksLoadedState copyWith({required List<TaskEntity>? tasks}) {
+    return TasksLoadedState(tasks: tasks ?? this.tasks);
   }
 }
 
-final class TasksError extends TasksState {
+final class TasksErrorState extends TasksState {
   final String message;
-  TasksError({required this.message});
+  TasksErrorState({required this.message});
 }

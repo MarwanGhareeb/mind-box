@@ -6,6 +6,8 @@ import 'package:note_todo_app_mind_box/features/tasks/domain/repositories/tasks_
 import 'package:note_todo_app_mind_box/features/tasks/domain/use_cases/add_task_use_case.dart';
 import 'package:note_todo_app_mind_box/features/tasks/domain/use_cases/delete_task_use_case.dart';
 import 'package:note_todo_app_mind_box/features/tasks/domain/use_cases/get_task_use_case.dart';
+import 'package:note_todo_app_mind_box/features/tasks/domain/use_cases/update_task_use_case.dart';
+import 'package:note_todo_app_mind_box/features/tasks/presentation/bloc/tasks_bloc.dart';
 
 void initTasksDependencies(GetIt getIt) {
   getIt.registerLazySingleton<TasksLocalDataSource>(
@@ -24,5 +26,17 @@ void initTasksDependencies(GetIt getIt) {
   );
   getIt.registerLazySingleton<GetTaskUseCase>(
     () => GetTaskUseCase(getIt<TasksRepo>()),
+  );
+  getIt.registerLazySingleton<UpdateTaskUseCase>(
+    () => UpdateTaskUseCase(getIt<TasksRepo>()),
+  );
+
+  getIt.registerFactory(
+    () => TasksBloc(
+      getIt<GetTaskUseCase>(),
+      getIt<AddTaskUseCase>(),
+      getIt<UpdateTaskUseCase>(),
+      getIt<DeleteTaskUseCase>(),
+    ),
   );
 }

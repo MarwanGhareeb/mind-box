@@ -9,6 +9,11 @@ class TasksLocalDataSource {
     return await _databaseConsumer.addData(table, data: data);
   }
 
+  Future<int> update(String table,
+      {required Map<String, dynamic> data, required int id}) async {
+    return await _databaseConsumer.updateData(table, data: data, id: id);
+  }
+
   Future<int> delete(String table, {required int id}) async {
     return await _databaseConsumer.deleteData(table, id: id);
   }

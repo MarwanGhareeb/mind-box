@@ -6,7 +6,7 @@ import 'package:note_todo_app_mind_box/features/notes/domain/entities/note_entit
 import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/color_selector.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/custom_app_bar.dart';
-import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/custom_text_field.dart';
+import 'package:note_todo_app_mind_box/core/widgets/custom_text_field.dart';
 
 class NoteFormScreen extends StatefulWidget {
   const NoteFormScreen({

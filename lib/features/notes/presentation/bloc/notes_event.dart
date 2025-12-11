@@ -19,5 +19,3 @@ final class DeleteNoteEvent extends NotesEvent {
   final int id;
   DeleteNoteEvent({required this.id});
 }
-
-final class ScrollToLastNoteEvent extends NotesEvent {}

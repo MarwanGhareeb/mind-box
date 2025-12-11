@@ -3,7 +3,7 @@ import 'package:note_todo_app_mind_box/core/constants/database_keys.dart';
 class TaskParams {
   final int? id;
   final String title;
-  final bool isCompleted;
+  final int isCompleted;
 
   TaskParams({
     this.id,

@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:note_todo_app_mind_box/app/home_screen.dart';
 import 'package:note_todo_app_mind_box/core/cache/cache_helper.dart';
 import 'package:note_todo_app_mind_box/core/di/injection_container.dart';
 import 'package:note_todo_app_mind_box/core/themes/app_theme.dart';
+import 'package:note_todo_app_mind_box/features/notes/presentation/bloc/notes_bloc.dart';
+import 'package:note_todo_app_mind_box/features/tasks/presentation/bloc/tasks_bloc.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,11 +22,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      theme: AppTheme.theme,
-      home: const HomeScreen(),
-      navigatorObservers: [routeObserver],
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(create: (_) => getIt<NotesBloc>()..add(GetNotesEvent())),
+        BlocProvider(create: (_) => getIt<TasksBloc>()..add(GetTasksEvent())),
+      ],
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        theme: AppTheme.theme,
+        home: const HomeScreen(),
+        navigatorObservers: [routeObserver],
+      ),
     );
   }
 }

@@ -10,6 +10,8 @@ import 'package:note_todo_app_mind_box/features/notes/domain/repositories/notes_
 class NotesRepoImpl implements NotesRepo {
   final NotesLocalDataSource _notesLocalDataSource;
 
+  List<NoteEntity>? _cachedNotes;
+
   NotesRepoImpl(this._notesLocalDataSource);
 
   @override
@@ -46,12 +48,18 @@ class NotesRepoImpl implements NotesRepo {
 
   @override
   Future<Either<Failure, List<NoteEntity>>> getNotes() async {
+    if (_cachedNotes != null) {
+      return Right(_cachedNotes!);
+    }
+
     try {
       final List<Map<String, dynamic>> data =
           await _notesLocalDataSource.get(NotesDBKeys.notesTable);
-      return Right(
-        data.map((note) => NoteModel.fromJson(note).toEntity()).toList(),
-      );
+
+      _cachedNotes =
+          data.map((note) => NoteModel.fromJson(note).toEntity()).toList();
+
+      return Right(_cachedNotes!);
     } on LocalDatabaseException catch (e) {
       return Left(DatabaseFailure(e.message));
     } catch (e) {

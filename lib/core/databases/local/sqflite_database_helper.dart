@@ -39,7 +39,7 @@ class SqfliteDatabaseHelper {
       CREATE TABLE IF NOT EXISTS ${TasksDBKeys.tasksTable} (
         ${TasksDBKeys.taskId} INTEGER PRIMARY KEY AUTOINCREMENT,
         ${TasksDBKeys.taskTitle} TEXT,
-        ${TasksDBKeys.taskCompleted} INTEGER DEFAULT 0,
+        ${TasksDBKeys.taskCompleted} INTEGER DEFAULT 0
       )
     ''',
     );

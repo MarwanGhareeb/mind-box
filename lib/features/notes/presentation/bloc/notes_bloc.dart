@@ -16,6 +16,8 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
   final UpdateNoteUseCase _updateNoteUseCase;
   final DeleteNoteUseCase _deleteNoteUseCase;
 
+  bool _hasLoadedOnce = false;
+
   NotesBloc(
     this._getNotesUseCase,
     this._addNoteUseCase,
@@ -25,13 +27,16 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
     // G E T
     on<GetNotesEvent>(
       (event, emit) async {
-        emit(NotesLoading());
+        if (!_hasLoadedOnce) emit(NotesLoading());
 
         final results = await _getNotesUseCase.call();
 
         results.fold(
           (failure) => emit(NotesError(message: failure.message)),
-          (notes) => emit(NotesLoaded(notes: notes)),
+          (notes) {
+            _hasLoadedOnce = true;
+            emit(NotesLoaded(notes: notes));
+          },
         );
       },
     );
@@ -112,12 +117,6 @@ class NotesBloc extends Bloc<NotesEvent, NotesState> {
             },
           );
         }
-      },
-    );
-
-    on<ScrollToLastNoteEvent>(
-      (event, emit) {
-        emit(ScrollToLastNoteState());
       },
     );
   }

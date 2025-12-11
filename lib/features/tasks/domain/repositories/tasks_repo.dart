@@ -5,5 +5,7 @@ import 'package:note_todo_app_mind_box/features/tasks/domain/entities/task_entit
 abstract class TasksRepo {
   Future<Either<Failure, List<TaskEntity>>> getTasks();
   Future<Either<Failure, int>> addTasks({required Map<String, dynamic> data});
+  Future<Either<Failure, int>> updateTasks(
+      {required Map<String, dynamic> data, required int id});
   Future<Either<Failure, int>> deleteTasks({required int id});
 }

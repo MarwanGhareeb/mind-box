@@ -4,7 +4,7 @@ import 'package:note_todo_app_mind_box/features/tasks/domain/entities/task_entit
 class TaskModel {
   final int id;
   final String title;
-  final bool isCompleted;
+  final int isCompleted;
 
   TaskModel({
     required this.id,

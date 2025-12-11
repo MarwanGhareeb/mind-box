@@ -24,5 +24,3 @@ final class NotesError extends NotesState {
   final String message;
   NotesError({required this.message});
 }
-
-final class ScrollToLastNoteState extends NotesState {}

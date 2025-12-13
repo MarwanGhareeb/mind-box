@@ -10,11 +10,22 @@ import 'package:note_todo_app_mind_box/features/notes/presentation/utils/transit
 import 'package:note_todo_app_mind_box/core/widgets/loading_skelton_list.dart';
 import 'package:note_todo_app_mind_box/features/notes/presentation/widgets/notes_view_animated.dart';
 
-class NotesScreen extends StatelessWidget {
+class NotesScreen extends StatefulWidget {
   const NotesScreen({super.key});
 
   @override
+  State<NotesScreen> createState() => _NotesScreenState();
+}
+
+class _NotesScreenState extends State<NotesScreen>
+    with AutomaticKeepAliveClientMixin {
+  @override
+  bool get wantKeepAlive => true;
+
+  @override
   Widget build(BuildContext context) {
+    super.build(context);
+
     return Scaffold(
       body: Container(
         decoration: BoxDecoration(
@@ -64,7 +75,7 @@ class NotesScreen extends StatelessWidget {
     );
   }
 
-  FloatingActionButton _floatingActionButton(BuildContext context) {
+  Padding _floatingActionButton(BuildContext context) {
     void onPressed() async {
       final bloc = context.read<NotesBloc>();
 
@@ -79,12 +90,15 @@ class NotesScreen extends StatelessWidget {
       );
     }
 
-    return FloatingActionButton(
-      onPressed: onPressed,
-      backgroundColor: AppColors.fabNote,
-      child: Icon(
-        Icons.add,
-        size: 27,
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 120),
+      child: FloatingActionButton(
+        onPressed: onPressed,
+        backgroundColor: AppColors.accentAmber,
+        child: Icon(
+          Icons.add,
+          size: 27,
+        ),
       ),
     );
   }

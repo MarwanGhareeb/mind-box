@@ -19,6 +19,7 @@ class NotesViewAnimated extends StatelessWidget {
       builder: (context, notes) {
         return notes.isEmpty
             ? Center(
+                heightFactor: 6,
                 child: RepaintBoundary(
                   child: AnimatedTextKit2.Wave(
                     text: "Start Creating",

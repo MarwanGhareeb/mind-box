@@ -1,7 +1,7 @@
 # 🧠 Mind Box
 
 <p align="center">
-  <img src="assets/icons/app_icon.png" width="120" alt="Mind Box Logo" />
+  <img src="assets/screenshots/mind_box_logo.png" width="120" alt="Mind Box Logo" />
 </p>
 
 <p align="center">
@@ -113,11 +113,12 @@ This approach makes the app:
 
 > Screenshots and GIFs showcasing UI and animations
 
-```text
-assets/screenshots/notes.png
-assets/screenshots/tasks.png
-assets/screenshots/navigation.gif
-```
+<p align="center">
+  <img src="assets/screenshots/notes.png" width="250" />
+  <img src="assets/screenshots/tasks.png" width="250" />
+  <img src="assets/screenshots/empty_notes.png" width="250" />
+</p>
+
 
 ---
 

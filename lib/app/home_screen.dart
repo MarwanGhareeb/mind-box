@@ -73,16 +73,17 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             },
           ),
-          Padding(
-            padding: const EdgeInsets.only(bottom: 25, right: 15, left: 15),
-            child: Align(
-              alignment: AlignmentGeometry.bottomCenter,
-              child: GlassBottomNavigation(
-                currentIndex: _currentIndex,
-                onTap: _onTabTapped,
+          if (MediaQuery.of(context).viewInsets.bottom <= 70)
+            Padding(
+              padding: const EdgeInsets.only(bottom: 25, right: 15, left: 15),
+              child: Align(
+                alignment: AlignmentGeometry.bottomCenter,
+                child: GlassBottomNavigation(
+                  currentIndex: _currentIndex,
+                  onTap: _onTabTapped,
+                ),
               ),
             ),
-          )
         ],
       ),
     );

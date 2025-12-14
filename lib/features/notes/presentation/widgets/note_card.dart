@@ -69,13 +69,15 @@ class _NoteCardState extends State<NoteCard>
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.push(
-        context,
-        createTransparentRoute(
-          NoteDetailsScreen(note: widget.note),
-          isOpaque: true,
-        ),
-      ),
+      onTap: () {
+        Navigator.push(
+          context,
+          createTransparentRoute(
+            NoteDetailsScreen(note: widget.note),
+            isOpaque: true,
+          ),
+        );
+      },
       child: SizeTransition(
         sizeFactor: _animationScale,
         child: SlideTransition(

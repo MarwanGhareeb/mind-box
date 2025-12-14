@@ -18,16 +18,19 @@ class CustomTextField extends StatefulWidget {
   State<CustomTextField> createState() => _CustomTextFieldState();
 }
 
-class _CustomTextFieldState extends State<CustomTextField> {
+class _CustomTextFieldState extends State<CustomTextField>
+    with WidgetsBindingObserver {
   final FocusNode _focusNode = FocusNode();
   bool _isFocused = false;
 
   @override
   void initState() {
     _focusNode.addListener(
-      () => setState(
-        () => _isFocused = _focusNode.hasFocus,
-      ),
+      () {
+        setState(
+          () => _isFocused = _focusNode.hasFocus,
+        );
+      },
     );
     super.initState();
   }
@@ -43,6 +46,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
     return TextFormField(
       controller: widget.controller,
       focusNode: _focusNode,
+      onTapOutside: (event) => FocusManager.instance.primaryFocus?.unfocus(),
       style: Theme.of(context).textTheme.bodyMedium!.copyWith(
             color: _isFocused ? AppColors.textOnLight : AppColors.textOnDark,
           ),

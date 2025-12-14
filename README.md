@@ -178,7 +178,7 @@ flutter run
 Flutter Developer & Programmer
 
 * GitHub: [https://github.com/Marwan-Ghareeb](https://github.com/MarwanGhareeb)
-* LinkedIn: [www.linkedin.com/in/marwan-gharib](www.linkedin.com/in/marwan-gharib)
+* LinkedIn: [www.linkedin.com/in/marwan-gharib](https://www.linkedin.com/in/marwan-gharib)
 
 ---
 
